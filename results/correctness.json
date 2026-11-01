@@ -10,6 +10,11 @@
     "ML-KEM-512": {
       "status": "PASS",
       "checks": {
+        "decaps_from_raw_secret_key_bytes_matches": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
         "shared_secrets_match": {
           "passed": 100,
           "failed": 0,
@@ -56,6 +61,11 @@
     "ML-KEM-768": {
       "status": "PASS",
       "checks": {
+        "decaps_from_raw_secret_key_bytes_matches": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
         "shared_secrets_match": {
           "passed": 100,
           "failed": 0,
@@ -265,12 +275,12 @@
           "failed": 0,
           "details": []
         },
-        "size:public_key==65": {
+        "size:public_key==91": {
           "passed": 100,
           "failed": 0,
           "details": []
         },
-        "size:secret_key==32": {
+        "size:secret_key==138": {
           "passed": 100,
           "failed": 0,
           "details": []

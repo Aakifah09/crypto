@@ -13,34 +13,16 @@ Compares post-quantum algorithms (ML-KEM, ML-DSA via liboqs) with classical base
 | `results/` | Output of the correctness run |
 | `docs/module1_test_report.md` | Module 1 test report |
 
-There are two ways to run it. Both use the same pinned versions and give the same results. Pick whichever fits your machine.
+Everything runs inside Docker, as the report specifies (Sec. 4.1): liboqs is compiled at a pinned version inside the image, and the resource profiles C0–C3 are Docker CPU/memory limits.
 
-## Option A: Without Docker
+## Requirements
 
-You need **Python 3.9+** and a **C compiler** (used once to build liboqs):
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (Windows / macOS) or Docker Engine (Linux), **running**
+- Internet access for the first build (it downloads and compiles liboqs: a few minutes the first time, seconds after that)
 
-| OS | How to get a C compiler |
-|---|---|
-| Windows | Install [Build Tools for Visual Studio](https://visualstudio.microsoft.com/visual-cpp-build-tools/) and tick **"Desktop development with C++"**. Open a new terminal afterwards. |
-| macOS | `xcode-select --install` |
-| Linux | `sudo apt install build-essential` (Debian/Ubuntu) |
+Nothing else is needed on your machine: no Python, compiler or CMake.
 
-Then, from the repository folder:
-
-```bash
-python -m venv .venv
-# Windows:      .venv\Scripts\activate
-# macOS/Linux:  source .venv/bin/activate
-
-python setup_liboqs.py              # one time: installs packages, builds liboqs into ~/_oqs (a few minutes)
-python -m benchmark.correctness     # run the checks
-```
-
-Expected ending: `ALL CHECKS PASSED`. `setup_liboqs.py` can be re-run safely; it skips the build if liboqs is already installed.
-
-## Option B: With Docker
-
-You need [Docker Desktop](https://www.docker.com/products/docker-desktop/) (or Docker Engine on Linux), **running**. Nothing else: no Python or compiler needed.
+## Run
 
 From the repository folder:
 
@@ -74,22 +56,23 @@ from benchmark.algorithms import get_algorithms
 from benchmark.workloads import SIGNATURE_MESSAGE, RSA_PAYLOAD
 
 for alg in get_algorithms():          # only algorithms that are available
-    pk, sk = alg.keygen()
+    pk, sk = alg.keygen()             # timed: key generation
+    skh = alg.load_secret_key(sk)     # setup: do this BEFORE starting the timer
     if alg.kind == "kem":
-        ct, ss = alg.encaps(pk); alg.decaps(sk, ct)
+        ct, ss = alg.encaps(pk); alg.decaps(skh, ct)
     elif alg.kind == "signature":
-        sig = alg.sign(sk, SIGNATURE_MESSAGE); alg.verify(pk, SIGNATURE_MESSAGE, sig)
+        sig = alg.sign(skh, SIGNATURE_MESSAGE); alg.verify(pk, SIGNATURE_MESSAGE, sig)
     elif alg.kind == "pke":
-        ct = alg.encrypt(pk, RSA_PAYLOAD); alg.decrypt(sk, ct)
+        ct = alg.encrypt(pk, RSA_PAYLOAD); alg.decrypt(skh, ct)
 ```
 
-With Option A, run that code normally (`python your_script.py`). With Option B, run it inside the container:
+Time each operation call on its own. Keep `load_secret_key` and any correctness comparisons outside the timed block (report Sec. 4.4).
+
+Run your own scripts inside the container too (liboqs is only installed there):
 `docker run --rm -v "$(pwd):/app" pqc-benchmark python your_script.py`.
 
 ## Troubleshooting
 
-- `No C compiler found` / `CMake could not configure the build` means the C compiler from Option A is missing. Install it, open a new terminal, and re-run `python setup_liboqs.py`.
-- `liboqs-python` starts trying to download and build liboqs by itself. That means `setup_liboqs.py` was not run (or failed). Stop it (Ctrl+C) and run the setup script.
 - `failed to connect to the docker API` means Docker Desktop is not running. Start it and retry.
 - Output appears to stop after `liboqs-python faulthandler is disabled`. That line is normal; the checks take about 30 seconds.
 

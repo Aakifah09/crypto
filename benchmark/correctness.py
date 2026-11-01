@@ -71,7 +71,9 @@ def check_kem(alg, trials: int, sizes: dict) -> CheckRecorder:
     for t in range(trials):
         pk, sk = alg.keygen()
         ct, ss_enc = alg.encaps(pk)
-        ss_dec = alg.decaps(sk, ct)
+        skh = alg.load_secret_key(sk)   # the handle the benchmark times decaps with
+        ss_dec = alg.decaps(skh, ct)
+        rec.record("decaps_from_raw_secret_key_bytes_matches", alg.decaps(sk, ct) == ss_enc)
 
         rec.record("shared_secrets_match", ss_enc == ss_dec, f"trial {t}")
         _size_check(rec, alg.name, "public_key", len(pk))
@@ -81,7 +83,7 @@ def check_kem(alg, trials: int, sizes: dict) -> CheckRecorder:
 
         # ML-KEM uses implicit rejection: a modified ciphertext must NOT give the real secret.
         rec.run("tampered_ciphertext_gives_different_secret",
-                lambda: alg.decaps(sk, flip_bit(ct, t)) != ss_enc)
+                lambda: alg.decaps(skh, flip_bit(ct, t)) != ss_enc)
         rec.run("wrong_secret_key_gives_different_secret",
                 lambda: alg.decaps(sk2, ct) != ss_enc)
         _, ss_again = alg.encaps(pk)
@@ -100,7 +102,8 @@ def check_signature(alg, trials: int, sizes: dict) -> CheckRecorder:
     sig_lengths: list[int] = []
     for t in range(trials):
         pk, sk = alg.keygen()
-        sig = alg.sign(sk, msg)
+        skh = alg.load_secret_key(sk)   # the handle the benchmark times signing with
+        sig = alg.sign(skh, msg)
         sig_lengths.append(len(sig))
 
         rec.run("valid_signature_verifies", lambda: alg.verify(pk, msg, sig) is True)
@@ -122,7 +125,7 @@ def check_signature(alg, trials: int, sizes: dict) -> CheckRecorder:
             if hasattr(alg, "secondary_sizes"):
                 sizes.update(alg.secondary_sizes(pk, sk))
             # Does signing the same message twice give the same bytes? (informational)
-            sizes["_signing_deterministic"] = alg.sign(sk, msg) == sig
+            sizes["_signing_deterministic"] = alg.sign(skh, msg) == sig
 
     sizes["signature_min"] = min(sig_lengths)
     sizes["signature_max"] = max(sig_lengths)
@@ -136,9 +139,10 @@ def check_pke(alg, trials: int, sizes: dict) -> CheckRecorder:
     _, sk2 = alg.keygen()
     for t in range(trials):
         pk, sk = alg.keygen()
+        skh = alg.load_secret_key(sk)
         ct = alg.encrypt(pk, pt)
 
-        rec.run("decrypt_recovers_payload", lambda: alg.decrypt(sk, ct) == pt)
+        rec.run("decrypt_recovers_payload", lambda: alg.decrypt(skh, ct) == pt)
         rec.record("modulus_is_2048_bits", pk.key_size == 2048, f"got {pk.key_size}")
         rec.record("public_exponent_is_65537", pk.public_numbers().e == 65537)
         _size_check(rec, alg.name, "ciphertext", len(ct))
@@ -151,7 +155,7 @@ def check_pke(alg, trials: int, sizes: dict) -> CheckRecorder:
             except ValueError:
                 return True
 
-        rec.run("tampered_ciphertext_rejected", lambda: rejects(lambda: alg.decrypt(sk, flip_bit(ct, t))))
+        rec.run("tampered_ciphertext_rejected", lambda: rejects(lambda: alg.decrypt(skh, flip_bit(ct, t))))
         rec.run("wrong_private_key_rejected", lambda: rejects(lambda: alg.decrypt(sk2, ct)))
         rec.record("encryption_is_randomized", alg.encrypt(pk, pt) != ct)
 

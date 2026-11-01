@@ -1,7 +1,7 @@
-algorithm,kind,family,public_key,secret_key,ciphertext,shared_secret,plaintext,signature,signature_min,signature_max,modulus_bytes,public_key_der_pkcs1,public_key_der_spki,secret_key_der_pkcs8,signature_raw_r_s
+algorithm,kind,family,public_key,secret_key,ciphertext,shared_secret,plaintext,signature,signature_min,signature_max,modulus_bytes,public_key_der_pkcs1,public_key_raw_point,secret_key_raw_scalar,signature_raw_r_s
 ML-KEM-512,kem,post-quantum,800,1632,768,32,,,,,,,,,
 ML-KEM-768,kem,post-quantum,1184,2400,1088,32,,,,,,,,,
 ML-DSA-44,signature,post-quantum,1312,2560,,,,2420,2420,2420,,,,,
 ML-DSA-65,signature,post-quantum,1952,4032,,,,3309,3309,3309,,,,,
-RSA-2048-OAEP-SHA256,pke,classical,294,1217,256,,32,,,,256,270,,,
-ECDSA-P256-SHA256,signature,classical,65,32,,,,,70,72,,,91,138,64
+RSA-2048-OAEP-SHA256,pke,classical,294,1216,256,,32,,,,256,270,,,
+ECDSA-P256-SHA256,signature,classical,91,138,,,,,69,72,,,65,32,64

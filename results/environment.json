@@ -1,11 +1,26 @@
 {
-  "timestamp_utc": "2026-11-01T13:58:22+00:00",
+  "timestamp_utc": "2026-11-01T15:19:51+00:00",
   "python": "3.11.18",
   "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.36",
   "machine": "x86_64",
   "processor": null,
+  "in_docker": true,
+  "base_image": "python:3.11-slim-bookworm@sha256:94a8fee35252d06ab75856f15f12c7bae67b10e8a6da93c7fded82b2610926cd",
   "cryptography_version": "46.0.7",
   "openssl_version": "OpenSSL 3.5.6 7 Apr 2026",
+  "liboqs_build": {
+    "liboqs_tag": "0.16.0",
+    "liboqs_commit": "5a1a854b0dc9f2141bdc771c555ee60c37950183",
+    "build_method": "docker",
+    "compiler": "cc (Debian 12.2.0-14+deb12u1) 12.2.0"
+  },
+  "limits": {
+    "cgroup_cpu_max": "max 100000",
+    "cgroup_memory_max": "max",
+    "cgroup_memory_swap_max": "max",
+    "os_cpu_count": 12,
+    "mem_total_kb": 7992112
+  },
   "liboqs_version": "0.16.0",
   "liboqs_python_version": "0.16.0.2",
   "liboqs_enabled_kems": [

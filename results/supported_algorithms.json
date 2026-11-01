@@ -13,7 +13,7 @@
       "standard": "FIPS 203",
       "security_category": "NIST category 1",
       "parameters": {
-        "encoding": "raw FIPS 203"
+        "encoding": "raw FIPS 203 byte strings (liboqs)"
       },
       "available": true,
       "reason": null,
@@ -28,7 +28,7 @@
       "standard": "FIPS 203",
       "security_category": "NIST category 3",
       "parameters": {
-        "encoding": "raw FIPS 203"
+        "encoding": "raw FIPS 203 byte strings (liboqs)"
       },
       "available": true,
       "reason": null,
@@ -43,9 +43,10 @@
       "standard": "FIPS 204",
       "security_category": "NIST category 2",
       "parameters": {
-        "encoding": "raw FIPS 204",
-        "context": "empty (pure ML-DSA)",
-        "signing_mode": "liboqs default"
+        "encoding": "raw FIPS 204 byte strings (liboqs)",
+        "context": "empty",
+        "prehash": "none (pure ML-DSA)",
+        "signing_mode": "liboqs default (hedged/randomized)"
       },
       "available": true,
       "reason": null,
@@ -60,9 +61,10 @@
       "standard": "FIPS 204",
       "security_category": "NIST category 3",
       "parameters": {
-        "encoding": "raw FIPS 204",
-        "context": "empty (pure ML-DSA)",
-        "signing_mode": "liboqs default"
+        "encoding": "raw FIPS 204 byte strings (liboqs)",
+        "context": "empty",
+        "prehash": "none (pure ML-DSA)",
+        "signing_mode": "liboqs default (hedged/randomized)"
       },
       "available": true,
       "reason": null,
@@ -102,8 +104,8 @@
         "curve": "secp256r1 (P-256)",
         "hash": "SHA-256",
         "nonce": "random (OpenSSL default)",
-        "public_key_encoding": "SEC1 uncompressed point",
-        "secret_key_encoding": "raw 32-byte scalar",
+        "public_key_encoding": "DER SubjectPublicKeyInfo",
+        "secret_key_encoding": "DER PKCS#8 (unencrypted)",
         "signature_encoding": "DER ECDSA-Sig-Value"
       },
       "available": true,

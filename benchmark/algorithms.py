@@ -15,7 +15,7 @@ Encodings (used for all size measurements):
     RSA-2048          public key: DER SubjectPublicKeyInfo, private key: DER PKCS#8 (unencrypted)
                       ciphertext: raw 256-byte OAEP block
     ECDSA P-256       public key: DER SubjectPublicKeyInfo, private key: DER PKCS#8 (unencrypted)
-                      signature: DER-encoded ECDSA-Sig-Value (variable length, 70-72 bytes)
+                      signature: DER-encoded ECDSA-Sig-Value (variable length, at most 72 bytes)
     These follow the report (Sec. 4.4 step 5: "liboqs raw byte strings for PQC; DER
     SubjectPublicKeyInfo for classical"). Raw point / scalar / r||s and PKCS#1 sizes
     are reported as secondary sizes.
@@ -57,7 +57,7 @@ def load_oqs():
         try:
             import oqs  # noqa: WPS433 (runtime import on purpose)
             _oqs = oqs
-        except BaseException as exc:  # liboqs-python can raise SystemExit when the C library is missing
+        except (Exception, SystemExit) as exc:  # liboqs-python can raise SystemExit when the C library is missing
             _oqs_error = f"{type(exc).__name__}: {exc}"
     return _oqs
 

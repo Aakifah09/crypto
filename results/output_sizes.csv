@@ -3,5 +3,5 @@ ML-KEM-512,kem,post-quantum,800,1632,768,32,,,,,,,,,
 ML-KEM-768,kem,post-quantum,1184,2400,1088,32,,,,,,,,,
 ML-DSA-44,signature,post-quantum,1312,2560,,,,2420,2420,2420,,,,,
 ML-DSA-65,signature,post-quantum,1952,4032,,,,3309,3309,3309,,,,,
-RSA-2048-OAEP-SHA256,pke,classical,294,1216,256,,32,,,,256,270,,,
-ECDSA-P256-SHA256,signature,classical,91,138,,,,,69,72,,,65,32,64
+RSA-2048-OAEP-SHA256,pke,classical,294,1218,256,,32,,,,256,270,,,
+ECDSA-P256-SHA256,signature,classical,91,138,,,,,70,72,,,65,32,64

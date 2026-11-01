@@ -85,11 +85,11 @@ Each algorithm ran 100 trials, each with a fresh key pair. A check passes only i
 | ML-DSA-44 | 1,312 | 2,560 | – | – | 2,420 |
 | ML-DSA-65 | 1,952 | 4,032 | – | – | 3,309 |
 | RSA-2048-OAEP-SHA256 | 294 (DER SPKI) | ≈1,217 (DER PKCS#8) | 256 | – | – |
-| ECDSA-P256-SHA256 | 91 (DER SPKI) | 138 (DER PKCS#8) | – | – | 69–72 (DER) |
+| ECDSA-P256-SHA256 | 91 (DER SPKI) | 138 (DER PKCS#8) | – | – | ≤ 72, variable (DER) |
 
 Secondary encodings: the RSA public key is 270 bytes as PKCS#1 DER. The ECDSA public key is 65 bytes as a raw uncompressed point, the private key a 32-byte raw scalar, and a raw r‖s signature 64 bytes.
 
-As the report expects (Sec. 4.5), ML-KEM/ML-DSA sizes and the RSA ciphertext are fixed. ECDSA DER signatures vary (69–72 bytes observed over 100 trials) because of DER integer encoding, not resource limits. The RSA PKCS#8 private key also varies by a few bytes for the same reason.
+As the report expects (Sec. 4.5), ML-KEM/ML-DSA sizes and the RSA ciphertext are fixed. ECDSA DER signatures vary in length because of DER integer encoding, not resource limits. The maximum is 72 bytes. A 100-trial run typically sees 70–72, occasionally 69. Each run records the observed minimum and maximum in `results/output_sizes.csv` (`signature_min`, `signature_max`). The RSA PKCS#8 private key also varies by a few bytes for the same reason.
 
 ## 6. Notes for the benchmarking framework (report Sec. 4.4 step 3)
 
@@ -107,13 +107,39 @@ alg.verify(pk, msg, sig)         # timed
 - `benchmark.algorithms.get_algorithms()` returns only the algorithms that are available.
 - Keys come out of `keygen()` as plain bytes (PQC), so they can be passed to a separate worker process, as the report requires (Sec. 4.4 step 7).
 - `results/environment.json` records the cgroup CPU and memory limits seen inside the container, so each benchmark run can save the limits it actually had (Sec. 4.3).
-- Run `python -m benchmark.correctness` before benchmarking. It exits with status 1 if any check fails.
+- Run `python -m benchmark.correctness` before benchmarking, and continue only if the exit status is 0. Status 1 means a check failed. Status 2 means a required algorithm is missing from liboqs: it is reported, never substituted, and the build must be fixed first (report Sec. 4.1).
 
-## 7. How to reproduce
+## 7. Do the checks catch faults? (self-test)
+
+A check that always passes proves nothing. `tests/test_fault_injection.py` breaks each algorithm on purpose and confirms the suite reports it. Result: **all 15 faults caught, 0 false alarms.**
+
+| Injected fault | Caught by |
+|---|---|
+| ML-KEM decaps returns a wrong secret | `shared_secrets_match` |
+| ML-KEM without implicit rejection | `tampered_ciphertext_gives_different_secret` |
+| ML-KEM accepts a wrong secret key | `wrong_secret_key_gives_different_secret` |
+| ML-KEM encapsulation not randomized | `encapsulation_is_randomized` |
+| "ML-KEM-768" actually running ML-KEM-512 | `size:ciphertext==1088` |
+| ML-DSA-44/65 verify accepts everything | `modified_message_rejected`, `wrong_public_key_rejected` |
+| ML-DSA verify rejects valid signatures | `valid_signature_verifies` |
+| ML-DSA only signs the first 512 bytes | `truncated_message_rejected` |
+| ECDSA verify accepts everything | `modified_signature_rejected` |
+| ECDSA on P-384 instead of P-256 | `size:public_key==91` |
+| RSA 1024-bit key / exponent 3 | `modulus_is_2048_bits` / `public_exponent_is_65537` |
+| RSA decrypt returns garbage | `decrypt_recovers_payload` |
+| RSA encryption not randomized | `encryption_is_randomized` |
+
+Run-level behaviour verified by the same self-test:
+- A crashing algorithm is recorded as FAIL, the other algorithms still run, and the exit status is 1.
+- A missing algorithm is reported UNAVAILABLE with a reason, is not handed to the benchmark, nothing is substituted, and the exit status is 2.
+- All 6 healthy algorithms pass.
+
+## 8. How to reproduce
 
 ```
 docker build -t pqc-benchmark .
 docker run --rm -v "%cd%\results:/app/results" pqc-benchmark
+docker run --rm pqc-benchmark python -m tests.test_fault_injection
 ```
 
 Everything runs in Docker, as the report specifies (Sec. 4.1), because the resource profiles C0–C3 are Docker CPU/memory limits.

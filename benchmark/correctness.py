@@ -8,8 +8,9 @@ Writes:
     results/correctness.json           every check, pass/fail, per algorithm
     results/output_sizes.csv           key, ciphertext, signature and shared-secret sizes
 
-Exits with status 1 if any check fails, so a CI job or the benchmark runner can
-refuse to continue.
+Exit status: 0 = all checks passed; 1 = a check failed; 2 = a required algorithm
+is unavailable in the installed liboqs. The benchmark runner must not continue
+unless the status is 0.
 """
 from __future__ import annotations
 
@@ -173,7 +174,11 @@ CHECKERS = {"kem": check_kem, "signature": check_signature, "pke": check_pke}
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
-def run(trials: int, out_dir: Path) -> bool:
+EXIT_OK, EXIT_FAILED, EXIT_UNAVAILABLE = 0, 1, 2
+
+
+def run(trials: int, out_dir: Path) -> int:
+    """Run all checks. Returns EXIT_OK, EXIT_FAILED or EXIT_UNAVAILABLE."""
     out_dir.mkdir(parents=True, exist_ok=True)
     env = environment_info()
     avail = availability()
@@ -191,6 +196,7 @@ def run(trials: int, out_dir: Path) -> bool:
     }
     size_rows: list[dict[str, Any]] = []
     all_ok = True
+    unavailable: list[str] = []
 
     for alg in REQUESTED_ALGORITHMS:
         entry = {**alg.info.__dict__, **avail[alg.name]}
@@ -200,10 +206,15 @@ def run(trials: int, out_dir: Path) -> bool:
             correctness["algorithms"][alg.name] = {"status": "UNAVAILABLE",
                                                    "reason": avail[alg.name]["reason"]}
             print(f"[UNAVAILABLE] {alg.name}: {avail[alg.name]['reason']}")
+            unavailable.append(alg.name)
             continue
 
         sizes: dict[str, Any] = {}
-        rec = CHECKERS[alg.kind](alg, trials, sizes)
+        try:
+            rec = CHECKERS[alg.kind](alg, trials, sizes)
+        except Exception as exc:  # e.g. keygen itself raises: record as FAIL, keep going
+            rec = CheckRecorder(alg.name)
+            rec.record("checker_completed", False, f"{type(exc).__name__}: {exc}")
         all_ok &= rec.ok
         entry["correctness_passed"] = rec.ok
         supported.append(entry)
@@ -235,13 +246,21 @@ def run(trials: int, out_dir: Path) -> bool:
                "shared_secret", "plaintext", "signature", "signature_min", "signature_max"]
     extra = sorted({k for row in size_rows for k in row} - set(columns))
     with open(out_dir / "output_sizes.csv", "w", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=columns + extra)
+        w = csv.DictWriter(f, fieldnames=columns + extra, lineterminator="\n")
         w.writeheader()
         w.writerows(size_rows)
 
     print(f"\nResults written to {out_dir.resolve()}")
-    print("ALL CHECKS PASSED" if all_ok else "SOME CHECKS FAILED")
-    return all_ok
+    if not all_ok:
+        print("SOME CHECKS FAILED")
+        return EXIT_FAILED
+    if unavailable:
+        # The report (Sec. 4.1) requires switching to a compatible build BEFORE testing,
+        # so a missing algorithm blocks benchmarking instead of passing silently.
+        print(f"{len(unavailable)} REQUIRED ALGORITHM(S) UNAVAILABLE: {', '.join(unavailable)}")
+        return EXIT_UNAVAILABLE
+    print("ALL CHECKS PASSED")
+    return EXIT_OK
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -249,7 +268,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--trials", type=int, default=100, help="fresh key pairs per algorithm (default 100)")
     p.add_argument("--out", type=Path, default=Path("results"))
     args = p.parse_args(argv)
-    return 0 if run(args.trials, args.out) else 1
+    return run(args.trials, args.out)
 
 
 if __name__ == "__main__":

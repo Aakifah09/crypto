@@ -9,7 +9,8 @@ Compares post-quantum algorithms (ML-KEM, ML-DSA via liboqs) with classical base
 | `benchmark/algorithms.py` | Uniform implementations of all algorithms and an availability check |
 | `benchmark/workloads.py` | Fixed 1,024-byte signature message and 32-byte RSA payload |
 | `benchmark/correctness.py` | Correctness checks that must pass before benchmarking |
-| `benchmark/environment.py` | Records library versions and enabled algorithm names |
+| `benchmark/environment.py` | Records versions, build commit, image digest, enabled algorithm names and container limits |
+| `tests/test_fault_injection.py` | Self-test: breaks each algorithm on purpose and confirms the checks catch it |
 | `results/` | Output of the correctness run |
 | `docs/module1_test_report.md` | Module 1 test report |
 
@@ -48,6 +49,16 @@ docker run --rm -v "$(pwd)/results:/app/results" pqc-benchmark
 Expected ending: `ALL CHECKS PASSED`. The `results/` folder is then refreshed.
 
 More trials: append `python -m benchmark.correctness --trials 500` to the run command.
+
+Exit status: `0` means all checks passed, `1` means a check failed, `2` means a required algorithm is missing from liboqs. Only benchmark after status `0`.
+
+Self-test (proves the checks catch broken algorithms):
+
+```bash
+docker run --rm pqc-benchmark python -m tests.test_fault_injection
+```
+
+Expected ending: `SELF-TEST PASSED`.
 
 ## Using the algorithms from other modules
 

@@ -1,0 +1,282 @@
+{
+  "trials_per_algorithm": 100,
+  "workloads": {
+    "signature_message_bytes": 1024,
+    "signature_message_sha256_16": "2d8d54375019ef51",
+    "rsa_payload_bytes": 32,
+    "rsa_payload_sha256_16": "40c05e1ab2aade4f"
+  },
+  "algorithms": {
+    "ML-KEM-512": {
+      "status": "PASS",
+      "checks": {
+        "shared_secrets_match": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "size:public_key==800": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "size:secret_key==1632": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "size:ciphertext==768": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "size:shared_secret==32": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "tampered_ciphertext_gives_different_secret": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "wrong_secret_key_gives_different_secret": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "encapsulation_is_randomized": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        }
+      },
+      "signing_deterministic": null
+    },
+    "ML-KEM-768": {
+      "status": "PASS",
+      "checks": {
+        "shared_secrets_match": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "size:public_key==1184": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "size:secret_key==2400": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "size:ciphertext==1088": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "size:shared_secret==32": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "tampered_ciphertext_gives_different_secret": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "wrong_secret_key_gives_different_secret": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "encapsulation_is_randomized": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        }
+      },
+      "signing_deterministic": null
+    },
+    "ML-DSA-44": {
+      "status": "PASS",
+      "checks": {
+        "valid_signature_verifies": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "modified_message_rejected": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "truncated_message_rejected": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "modified_signature_rejected": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "wrong_public_key_rejected": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "size:public_key==1312": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "size:secret_key==2560": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "size:signature==2420": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        }
+      },
+      "signing_deterministic": false
+    },
+    "ML-DSA-65": {
+      "status": "PASS",
+      "checks": {
+        "valid_signature_verifies": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "modified_message_rejected": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "truncated_message_rejected": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "modified_signature_rejected": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "wrong_public_key_rejected": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "size:public_key==1952": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "size:secret_key==4032": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "size:signature==3309": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        }
+      },
+      "signing_deterministic": false
+    },
+    "RSA-2048-OAEP-SHA256": {
+      "status": "PASS",
+      "checks": {
+        "decrypt_recovers_payload": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "modulus_is_2048_bits": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "public_exponent_is_65537": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "size:ciphertext==256": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "size:public_key==294": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "tampered_ciphertext_rejected": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "wrong_private_key_rejected": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "encryption_is_randomized": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        }
+      },
+      "signing_deterministic": null
+    },
+    "ECDSA-P256-SHA256": {
+      "status": "PASS",
+      "checks": {
+        "valid_signature_verifies": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "modified_message_rejected": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "truncated_message_rejected": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "modified_signature_rejected": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "wrong_public_key_rejected": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "size:public_key==65": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        },
+        "size:secret_key==32": {
+          "passed": 100,
+          "failed": 0,
+          "details": []
+        }
+      },
+      "signing_deterministic": false
+    }
+  }
+}

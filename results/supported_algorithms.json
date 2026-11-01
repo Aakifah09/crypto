@@ -1,0 +1,114 @@
+{
+  "liboqs_version": "0.16.0",
+  "liboqs_python_version": "0.16.0.2",
+  "cryptography_version": "46.0.7",
+  "openssl_version": "OpenSSL 3.5.6 7 Apr 2026",
+  "algorithms": [
+    {
+      "name": "ML-KEM-512",
+      "kind": "kem",
+      "family": "post-quantum",
+      "library": "liboqs",
+      "library_name": "ML-KEM-512",
+      "standard": "FIPS 203",
+      "security_category": "NIST category 1",
+      "parameters": {
+        "encoding": "raw FIPS 203"
+      },
+      "available": true,
+      "reason": null,
+      "correctness_passed": true
+    },
+    {
+      "name": "ML-KEM-768",
+      "kind": "kem",
+      "family": "post-quantum",
+      "library": "liboqs",
+      "library_name": "ML-KEM-768",
+      "standard": "FIPS 203",
+      "security_category": "NIST category 3",
+      "parameters": {
+        "encoding": "raw FIPS 203"
+      },
+      "available": true,
+      "reason": null,
+      "correctness_passed": true
+    },
+    {
+      "name": "ML-DSA-44",
+      "kind": "signature",
+      "family": "post-quantum",
+      "library": "liboqs",
+      "library_name": "ML-DSA-44",
+      "standard": "FIPS 204",
+      "security_category": "NIST category 2",
+      "parameters": {
+        "encoding": "raw FIPS 204",
+        "context": "empty (pure ML-DSA)",
+        "signing_mode": "liboqs default"
+      },
+      "available": true,
+      "reason": null,
+      "correctness_passed": true
+    },
+    {
+      "name": "ML-DSA-65",
+      "kind": "signature",
+      "family": "post-quantum",
+      "library": "liboqs",
+      "library_name": "ML-DSA-65",
+      "standard": "FIPS 204",
+      "security_category": "NIST category 3",
+      "parameters": {
+        "encoding": "raw FIPS 204",
+        "context": "empty (pure ML-DSA)",
+        "signing_mode": "liboqs default"
+      },
+      "available": true,
+      "reason": null,
+      "correctness_passed": true
+    },
+    {
+      "name": "RSA-2048-OAEP-SHA256",
+      "kind": "pke",
+      "family": "classical",
+      "library": "cryptography (OpenSSL)",
+      "library_name": "rsa / padding.OAEP",
+      "standard": "RFC 8017 (PKCS #1 v2.2)",
+      "security_category": "~112-bit classical",
+      "parameters": {
+        "modulus_bits": 2048,
+        "public_exponent": 65537,
+        "padding": "OAEP",
+        "hash": "SHA-256",
+        "mgf": "MGF1-SHA-256",
+        "label": null,
+        "public_key_encoding": "DER SubjectPublicKeyInfo",
+        "secret_key_encoding": "DER PKCS#8 (unencrypted)"
+      },
+      "available": true,
+      "reason": null,
+      "correctness_passed": true
+    },
+    {
+      "name": "ECDSA-P256-SHA256",
+      "kind": "signature",
+      "family": "classical",
+      "library": "cryptography (OpenSSL)",
+      "library_name": "ec.SECP256R1 / ec.ECDSA(SHA256)",
+      "standard": "FIPS 186-5",
+      "security_category": "~128-bit classical",
+      "parameters": {
+        "curve": "secp256r1 (P-256)",
+        "hash": "SHA-256",
+        "nonce": "random (OpenSSL default)",
+        "public_key_encoding": "SEC1 uncompressed point",
+        "secret_key_encoding": "raw 32-byte scalar",
+        "signature_encoding": "DER ECDSA-Sig-Value"
+      },
+      "available": true,
+      "reason": null,
+      "correctness_passed": true
+    }
+  ]
+}

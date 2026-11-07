@@ -1,0 +1,5 @@
+algorithm,operation,profile,trials_attempted,trials_succeeded,trial_failure_rate,batches_attempted,batches_failed,batch_ops_attempted,batch_ops_completed,batch_op_failure_rate,oom_kills,error_types
+synthetic_fn,call,C0,30,30,0,5,0,500,500,0,0,
+synthetic_fn,call,C1,30,30,0,5,0,500,500,0,0,
+synthetic_fn,call,C2,30,29,0.0333333,5,5,500,74,0.852,0,MemoryError:6
+synthetic_fn,call,C3,30,19,0.366667,5,5,500,20,0.96,0,MemoryError:16

@@ -1,0 +1,5 @@
+algorithm,operation,profile,n_batches,n_batches_success,ops_attempted,ops_completed,op_completion_rate,median_ops_s,q1_ops_s,q3_ops_s,iqr_ops_s,throughput_slowdown_vs_c0
+synthetic_fn,call,C0,5,5,500,500,1,1989.27,1985.17,1989.72,4.54475,1
+synthetic_fn,call,C1,5,5,500,500,1,1314.46,1310.1,1329.98,19.8865,1.51338
+synthetic_fn,call,C2,5,0,500,74,0.148,,,,,
+synthetic_fn,call,C3,5,0,500,20,0.04,,,,,

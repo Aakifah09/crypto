@@ -1,5 +1,5 @@
 {
-  "timestamp_utc": "2026-11-01T15:37:01+00:00",
+  "timestamp_utc": "2026-11-07T17:15:27+00:00",
   "python": "3.11.18",
   "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.36",
   "machine": "x86_64",
@@ -19,7 +19,7 @@
     "cgroup_memory_max": "max",
     "cgroup_memory_swap_max": "max",
     "os_cpu_count": 12,
-    "mem_total_kb": 7992112
+    "mem_total_kb": 3859248
   },
   "liboqs_version": "0.16.0",
   "liboqs_python_version": "0.16.0.2",

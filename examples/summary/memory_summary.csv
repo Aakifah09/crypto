@@ -1,0 +1,5 @@
+algorithm,operation,profile,n,median_worker_peak_rss_kb,max_worker_peak_rss_kb,median_worker_baseline_rss_kb,median_container_peak_kb,max_container_peak_kb,container_peak_is_per_worker
+synthetic_fn,call,C0,30,15478,15580,15478,,,0
+synthetic_fn,call,C1,30,15476,15580,15476,,,0
+synthetic_fn,call,C2,29,15488,15580,15488,,,0
+synthetic_fn,call,C3,19,15480,15580,15480,,,0

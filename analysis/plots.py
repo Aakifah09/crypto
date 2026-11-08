@@ -120,7 +120,7 @@ def _grouped_bars(ax, series: dict[str, dict[str, float]], profiles, colour_by_p
 
 def plot_memory(mem, profiles, path):
     panels = [("median_worker_peak_rss_kb", "Worker peak RSS, MiB (heaviest operation)"),
-              ("median_container_peak_kb", "Container memory peak, MiB (heaviest operation)")]
+              ("median_container_anon_kb", "Container anonymous memory after the call, MiB (no page cache)")]
     fig, axes = plt.subplots(1, 2, figsize=(12, 4.6))
     for ax, (field, title) in zip(axes, panels):
         s: dict[str, dict[str, float]] = defaultdict(dict)

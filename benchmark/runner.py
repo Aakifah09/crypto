@@ -12,6 +12,13 @@ Design (report Sec. 4.4):
   * Correctness checks and size measurements happen after the timer stops.
   * Order is randomised (seeded): all warm-ups first, then all trials shuffled across
     algorithms and operations, then all batches shuffled.
+  * Before the timed call the worker collects garbage and sleeps `--settle-ms` (default 120,
+    just over one 100 ms CFS period). The sleep leaves the current quota period untouched, so
+    every timed call or batch starts with a FULL CPU quota. Without it, how much quota is left
+    depends on how much CPU the worker burned while starting up, and a throttle stall lands
+    inside or just outside the timed region at random.
+  * Throttling and container memory are sampled INSIDE the worker, just before and after the
+    timed call (outside the timer), so they describe the timed call and not process start-up.
   * A failed trial is never dropped. Exceptions, wrong results, timeouts (120 s), OOM kills
     and crashes are logged as rows with success=0 and an error_type.
 
@@ -28,9 +35,13 @@ import csv
 import gc
 import importlib
 import json
+import mmap
+import os
 import random
+import struct
 import subprocess
 import sys
+import tempfile
 import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -40,7 +51,7 @@ from typing import Any, Callable
 from .measure import Cgroup, peak_rss_kb, rss_kb, timed_batch, timed_call, timer_info
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-RESULT_MARK, PROGRESS_MARK = "@@RESULT@@", "@@PROGRESS@@"
+RESULT_MARK = "@@RESULT@@"
 BATCH_CHUNKS = 10
 EXIT_OK, EXIT_PROFILE, EXIT_CORRECTNESS = 0, 3, 4
 
@@ -189,10 +200,22 @@ def resolve_target(spec: str) -> Target:
 # ---------------------------------------------------------------------------
 # Worker process: one fresh process per warm-up / trial / batch
 # ---------------------------------------------------------------------------
+def _delta(a, b):
+    return None if a is None or b is None else b - a
+
+
 def worker_main() -> int:
     req = json.load(sys.stdin)
     out: dict[str, Any] = {"ok": False, "error_type": None, "error_message": None}
     stage = "import"
+    cg = Cgroup(reset_peak=False)
+    progress = None
+    if req.get("progress_path"):               # 8-byte memory-mapped counter the parent reads if we are killed
+        _pf = open(req["progress_path"], "r+b")
+        _mm = mmap.mmap(_pf.fileno(), 8)
+
+        def progress(done: int) -> None:
+            _mm[0:8] = struct.pack("<q", done)
     try:
         gc.collect()
         target = resolve_target(req["target"])
@@ -203,15 +226,26 @@ def worker_main() -> int:
         stage = "prime"
         for _ in range(req["prime_calls"]):
             op.run(subject, state)
+        stage = "settle"
+        gc.collect()                                   # collect now, not right before the timer
+        if req.get("settle_ms"):
+            time.sleep(req["settle_ms"] / 1000.0)      # idle > one CFS period: timing starts with a full quota
         stage = "timed"
+        before = cg.sample()                           # file reads happen outside the timer
         if req["mode"] == "latency":
-            out["latency_ms"], result = timed_call(op.run, subject, state)
+            out["latency_ms"], result = timed_call(op.run, subject, state, _collect=False)
+            after = cg.sample()
         else:
             br = timed_batch(op.run, subject, state, n=req["batch_size"], chunks=BATCH_CHUNKS,
-                             on_progress=lambda d: print(f"{PROGRESS_MARK}{d}", flush=True))
+                             on_progress=progress, collect=False)
+            after = cg.sample()
             out["ops_completed"], out["duration_ms"], result = br.completed, br.duration_ms, br.last_result
             if br.error is not None:
                 raise br.error
+        out.update(timed_throttled_periods=_delta(before["throttled"], after["throttled"]),
+                   timed_throttled_ms=(None if _delta(before["throttled_usec"], after["throttled_usec"]) is None
+                                       else _delta(before["throttled_usec"], after["throttled_usec"]) / 1000.0),
+                   container_anon_kb=after["anon_kb"], container_mem_kb=after["mem_kb"])
         stage = "check"
         if op.check is not None and not op.check(subject, state, result):
             out.update(error_type="IncorrectResult", error_message="correctness check failed after timing")
@@ -229,6 +263,10 @@ def worker_main() -> int:
 
 def run_worker(req: dict[str, Any], timeout_s: float, cg: Cgroup) -> dict[str, Any]:
     """Run one worker, enforce the timeout, and classify however it ended."""
+    pfd, ppath = tempfile.mkstemp(prefix="pqc-progress-")
+    os.write(pfd, bytes(8))
+    os.close(pfd)
+    req = {**req, "progress_path": ppath}
     start = cg.begin()
     t0 = time.perf_counter()
     proc = subprocess.Popen([sys.executable, "-m", "benchmark.runner", "--worker"], cwd=REPO_ROOT,
@@ -242,15 +280,22 @@ def run_worker(req: dict[str, Any], timeout_s: float, cg: Cgroup) -> dict[str, A
         timed_out = True
     res: dict[str, Any] = {"worker_wall_ms": (time.perf_counter() - t0) * 1000.0,
                            "exit_code": proc.returncode, **cg.end(start)}
-    payload, progress = None, 0
-    for line in (stdout or "").splitlines():      # liboqs may print other lines; only trust our markers
+    try:
+        progress = struct.unpack("<q", Path(ppath).read_bytes()[:8])[0]
+    except (OSError, struct.error):
+        progress = 0
+    finally:
         try:
-            if line.startswith(RESULT_MARK):
-                payload = json.loads(line[len(RESULT_MARK):])
-            elif line.startswith(PROGRESS_MARK):
-                progress = int(line[len(PROGRESS_MARK):])
-        except ValueError:
+            os.unlink(ppath)
+        except OSError:
             pass
+    payload = None
+    for line in (stdout or "").splitlines():      # liboqs may print other lines; only trust our marker
+        if line.startswith(RESULT_MARK):
+            try:
+                payload = json.loads(line[len(RESULT_MARK):])
+            except ValueError:
+                pass
     if payload is not None and not timed_out:
         res.update(payload)
         return res
@@ -265,7 +310,7 @@ def run_worker(req: dict[str, Any], timeout_s: float, cg: Cgroup) -> dict[str, A
         tail = (stderr or "").strip().splitlines()[-1:] or [""]
         res.update(error_type="WorkerCrash", error_message=f"exit {proc.returncode}: {tail[0]}"[:300])
     if req["mode"] == "batch":
-        res["ops_completed"] = progress               # last progress report before the worker died
+        res["ops_completed"] = progress               # last count the worker wrote before it died
     return res
 
 
@@ -275,8 +320,11 @@ def run_worker(req: dict[str, Any], timeout_s: float, cg: Cgroup) -> dict[str, A
 SIZE_COLS = ["public_key_bytes", "secret_key_bytes", "ciphertext_bytes", "shared_secret_bytes",
              "signature_bytes", "plaintext_bytes"]
 COMMON_COLS = ["run_id", "timestamp_utc", "profile", "algorithm", "kind", "family", "operation"]
+# throttled_* / container_mem_peak_kb cover the whole worker lifetime (incl. start-up);
+# timed_throttled_* and container_anon_kb / container_mem_kb are sampled around the timed call.
 RESOURCE_COLS = ["worker_baseline_rss_kb", "worker_peak_rss_kb", "container_mem_peak_kb",
-                 "container_peak_reset", "oom_kills", "throttled_periods", "throttled_ms",
+                 "container_peak_reset", "container_anon_kb", "container_mem_kb", "oom_kills",
+                 "throttled_periods", "throttled_ms", "timed_throttled_periods", "timed_throttled_ms",
                  "worker_wall_ms", "exit_code"]
 TRIAL_COLS = (COMMON_COLS + ["trial", "order_index", "latency_ms", "success", "error_type", "error_message"]
               + SIZE_COLS + RESOURCE_COLS)
@@ -395,7 +443,7 @@ def run_profile(a: argparse.Namespace) -> int:
 
     def req(t, op, mode):
         return {"target": t.spec, "operation": op, "mode": mode, "prime_calls": a.prime_calls,
-                "batch_size": a.batch_size}
+                "batch_size": a.batch_size, "settle_ms": a.settle_ms}
 
     plan: list[tuple[str, Target, str, int]] = [("warmup", t, op, i + 1) for t, op in cells for i in range(a.warmups)]
     rng.shuffle(plan)
@@ -452,6 +500,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p.add_argument("--timeout", type=float, default=120, help="seconds per trial before it counts as a failure")
     p.add_argument("--batch-timeout", type=float, default=120, help="seconds per throughput batch")
     p.add_argument("--prime-calls", type=int, default=1, help="untimed calls inside each worker before timing")
+    p.add_argument("--settle-ms", type=float, default=120,
+                   help="idle time before each timed call so it starts with a full CPU quota (0 = off)")
     p.add_argument("--seed", type=int, default=1, help="seed for the randomised run order")
     p.add_argument("--no-throughput", action="store_true")
     p.add_argument("--skip-correctness-check", action="store_true")

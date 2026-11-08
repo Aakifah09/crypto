@@ -22,6 +22,10 @@ def sleeps_fn():
     time.sleep(30)
 
 
+def slowish_fn():
+    time.sleep(0.2)
+
+
 def synthetic_fn():
     """Busy-wait of 0.5 ms x SYNTH_SLOWDOWN; fails with probability SYNTH_FAIL_RATE.
     Only used to demonstrate the pipeline on synthetic data; it measures nothing real."""

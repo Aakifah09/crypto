@@ -32,7 +32,7 @@ def check(ok: bool, text: str) -> None:
 
 
 def run_runner(out: Path, profile: str, targets: str, env: dict | None = None, **opts) -> int:
-    args = {"warmups": 1, "trials": 6, "batches": 2, "batch-size": 20, **opts}
+    args = {"warmups": 1, "trials": 6, "batches": 2, "batch-size": 20, "settle-ms": 0, **opts}
     cmd = [sys.executable, "-m", "benchmark.runner", "--profile", profile, "--out", str(out),
            "--targets", targets, "--skip-correctness-check", "--allow-profile-mismatch"]
     for k, v in args.items():
@@ -59,6 +59,12 @@ def main() -> int:
     b = measure.timed_batch(lambda: None, n=100)
     check(b.completed == 100 and b.ops_per_s and b.ops_per_s > 0, "clean batch completes 100 operations")
 
+    marks = []
+    t0 = time.perf_counter()
+    b = measure.timed_batch(lambda: None, n=100, on_progress=lambda d: (marks.append(d), time.sleep(0.005)))
+    check(marks == list(range(10, 101, 10)) and b.duration_ms >= 45.0,
+          f"batch duration is wall-clock incl. gaps between blocks ({b.duration_ms:.0f} ms, progress {marks[0]}..{marks[-1]})")
+
     print("\ncgroup reader and profile check\n")
     with tempfile.TemporaryDirectory() as t:
         d = Path(t)
@@ -67,7 +73,12 @@ def main() -> int:
         (d / "memory.swap.max").write_text("0\n")
         (d / "memory.events").write_text("low 0\nhigh 0\nmax 3\noom 1\noom_kill 1\n")
         (d / "cpu.stat").write_text("usage_usec 5\nnr_periods 10\nnr_throttled 4\nthrottled_usec 9000\n")
+        (d / "memory.current").write_text("52428800\n")
+        (d / "memory.stat").write_text("anon 31457280\nfile 20971520\n")
         cg = measure.Cgroup(d, reset_peak=False)
+        smp = cg.sample()
+        check(smp == {"mem_kb": 51200, "anon_kb": 30720, "throttled": 4, "throttled_usec": 9000},
+              "sample() reads memory.current, anon memory and throttle counters")
         check(cg._kv("memory.events")["oom_kill"] == 1 and cg._kv("cpu.stat")["nr_throttled"] == 4, "parses events and cpu.stat")
         _, verified, problems = runner.verify_profile(cg, runner.PROFILES["C3"])
         check(verified and not problems, "C3 limits accepted when container really has 0.25 CPU / 128 MiB / no swap")
@@ -101,6 +112,36 @@ def main() -> int:
               "cells with no successful run get no latency/throughput statistics, only failure counts")
         timeout_cell = [r for r in s["throughput"] if r["algorithm"] == "sleeps_fn"][0]
         check(timeout_cell["op_completion_rate"] == 0, "timed-out batch counted as 0 completed operations")
+
+    with tempfile.TemporaryDirectory() as t:
+        out = Path(t)
+        run_runner(out, "C0", "fn:tests.fixtures:slowish_fn", trials=0, warmups=0, batches=1,
+                   **{"batch-size": 20, "batch-timeout": 3})
+        th = rows(out / "throughput.csv")
+        done = int(th[0]["ops_completed"]) if th else -1
+        check(len(th) == 1 and th[0]["error_type"] == "Timeout" and 0 < done < 20 and done % 2 == 0,
+              f"batch killed by the timeout keeps its partial progress ({done} of 20 operations)")
+
+    with tempfile.TemporaryDirectory() as t:
+        out = Path(t)
+        run_runner(out, "C0", "fn:tests.fixtures:ok_fn", trials=2, warmups=0, batches=1, **{"settle-ms": 300})
+        walls = [float(r["worker_wall_ms"]) for r in rows(out / "trials.csv") + rows(out / "throughput.csv")]
+        check(len(walls) == 3 and all(w >= 300 for w in walls), "--settle-ms 300 makes every worker idle 300 ms before timing")
+    ms, _ = measure.timed_call(lambda: None, _collect=False)
+    check(ms >= 0 and measure.timed_batch(lambda: None, n=10, collect=False).completed == 10,
+          "timing helpers can skip the pre-timer garbage collection")
+
+    print("\nIn-worker cgroup sampling (fake cgroup directory)\n")
+    with tempfile.TemporaryDirectory() as t, tempfile.TemporaryDirectory() as fake:
+        f = Path(fake)
+        (f / "memory.current").write_text("52428800\n")
+        (f / "memory.stat").write_text("anon 31457280\nfile 20971520\n")
+        (f / "cpu.stat").write_text("nr_periods 10\nnr_throttled 4\nthrottled_usec 9000\n")
+        run_runner(Path(t), "C0", "fn:tests.fixtures:ok_fn", {"CGROUP_ROOT": str(f)}, trials=2, batches=1)
+        r0 = rows(Path(t) / "trials.csv")[0]
+        check(r0["container_anon_kb"] == "30720" and r0["container_mem_kb"] == "51200",
+              "worker records container anonymous memory and memory.current around the timed call")
+        check(r0["timed_throttled_periods"] == "0", "no throttling counted when the counter did not move")
 
     print("\nSummary statistics reproduce from raw data\n")
     with tempfile.TemporaryDirectory() as t:

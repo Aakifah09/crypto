@@ -1,5 +1,5 @@
-algorithm,operation,profile,n_recorded,n_success,median_ms,q1_ms,q3_ms,iqr_ms,p95_ms,min_ms,max_ms,slowdown_vs_c0,slowdown_ci_low,slowdown_ci_high,trials_with_cpu_throttling
-synthetic_fn,call,C0,30,30,0.521726,0.50951,0.526834,0.0173235,0.53867,0.503024,0.549695,1,0.985794,1.01519,0
-synthetic_fn,call,C1,30,30,0.777201,0.76513,0.78518,0.0200505,0.794104,0.746338,0.815266,1.48967,1.46913,1.51115,0
-synthetic_fn,call,C2,30,29,1.52314,1.49314,1.54908,0.05594,1.56183,1.47263,1.5936,2.91942,2.8719,2.9664,0
-synthetic_fn,call,C3,30,19,3.03189,2.99743,3.05856,0.0611355,3.09429,2.94198,3.10033,5.81126,5.73961,5.9015,0
+algorithm,operation,profile,n_recorded,n_success,median_ms,q1_ms,q3_ms,iqr_ms,p95_ms,min_ms,max_ms,slowdown_vs_c0,slowdown_ci_low,slowdown_ci_high,trials_throttled_in_timed_call
+synthetic_fn,call,C0,30,30,0.515365,0.507659,0.523918,0.0162583,0.540593,0.497263,0.552658,1,0.985009,1.01461,
+synthetic_fn,call,C1,30,30,0.76324,0.751088,0.779284,0.0281965,0.798805,0.739791,0.908723,1.48097,1.45922,1.51048,
+synthetic_fn,call,C2,30,23,1.50458,1.48239,1.52769,0.045295,1.54528,1.46764,1.55292,2.91944,2.87372,2.96843,
+synthetic_fn,call,C3,30,20,3.04471,3.00832,3.06559,0.0572715,3.10352,2.92934,3.11617,5.90787,5.82295,5.98482,

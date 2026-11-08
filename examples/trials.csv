@@ -1,121 +1,121 @@
-run_id,timestamp_utc,profile,algorithm,kind,family,operation,trial,order_index,latency_ms,success,error_type,error_message,public_key_bytes,secret_key_bytes,ciphertext_bytes,shared_secret_bytes,signature_bytes,plaintext_bytes,worker_baseline_rss_kb,worker_peak_rss_kb,container_mem_peak_kb,container_peak_reset,oom_kills,throttled_periods,throttled_ms,worker_wall_ms,exit_code
-example-synthetic,2026-11-06T23:47:13.327+00:00,C0,synthetic_fn,function,test,call,3,1,0.527946,1,,,,,,,,,15444,15444,,0,,,,44.88968999999976,0
-example-synthetic,2026-11-06T23:47:13.374+00:00,C0,synthetic_fn,function,test,call,19,2,0.51724,1,,,,,,,,,15480,15480,,0,,,,47.065874000000285,0
-example-synthetic,2026-11-06T23:47:13.419+00:00,C0,synthetic_fn,function,test,call,11,3,0.515986,1,,,,,,,,,15488,15488,,0,,,,44.66584600000001,0
-example-synthetic,2026-11-06T23:47:13.463+00:00,C0,synthetic_fn,function,test,call,24,4,0.522587,1,,,,,,,,,15456,15456,,0,,,,44.30313499999983,0
-example-synthetic,2026-11-06T23:47:13.507+00:00,C0,synthetic_fn,function,test,call,5,5,0.518705,1,,,,,,,,,15492,15492,,0,,,,43.73226899999949,0
-example-synthetic,2026-11-06T23:47:13.551+00:00,C0,synthetic_fn,function,test,call,17,6,0.509451,1,,,,,,,,,15460,15460,,0,,,,43.452765000000504,0
-example-synthetic,2026-11-06T23:47:13.594+00:00,C0,synthetic_fn,function,test,call,8,7,0.525437,1,,,,,,,,,15464,15464,,0,,,,43.1814079999997,0
-example-synthetic,2026-11-06T23:47:13.637+00:00,C0,synthetic_fn,function,test,call,22,8,0.549695,1,,,,,,,,,15480,15480,,0,,,,43.14071199999958,0
-example-synthetic,2026-11-06T23:47:13.681+00:00,C0,synthetic_fn,function,test,call,18,9,0.503024,1,,,,,,,,,15540,15540,,0,,,,43.031623000000074,0
-example-synthetic,2026-11-06T23:47:13.724+00:00,C0,synthetic_fn,function,test,call,6,10,0.503929,1,,,,,,,,,15532,15532,,0,,,,43.47870399999998,0
-example-synthetic,2026-11-06T23:47:13.768+00:00,C0,synthetic_fn,function,test,call,2,11,0.515964,1,,,,,,,,,15568,15568,,0,,,,43.139647999999475,0
-example-synthetic,2026-11-06T23:47:13.811+00:00,C0,synthetic_fn,function,test,call,10,12,0.52688,1,,,,,,,,,15496,15496,,0,,,,43.33637299999982,0
-example-synthetic,2026-11-06T23:47:13.855+00:00,C0,synthetic_fn,function,test,call,23,13,0.545761,1,,,,,,,,,15576,15576,,0,,,,43.52732800000059,0
-example-synthetic,2026-11-06T23:47:13.898+00:00,C0,synthetic_fn,function,test,call,20,14,0.5272,1,,,,,,,,,15444,15444,,0,,,,43.48938700000016,0
-example-synthetic,2026-11-06T23:47:13.942+00:00,C0,synthetic_fn,function,test,call,12,15,0.509688,1,,,,,,,,,15444,15444,,0,,,,43.70664400000024,0
-example-synthetic,2026-11-06T23:47:13.989+00:00,C0,synthetic_fn,function,test,call,9,16,0.504692,1,,,,,,,,,15440,15440,,0,,,,46.837895999999546,0
-example-synthetic,2026-11-06T23:47:14.043+00:00,C0,synthetic_fn,function,test,call,28,17,0.503519,1,,,,,,,,,15580,15580,,0,,,,53.45947899999981,0
-example-synthetic,2026-11-06T23:47:14.093+00:00,C0,synthetic_fn,function,test,call,26,18,0.526934,1,,,,,,,,,15576,15576,,0,,,,49.471476999999986,0
-example-synthetic,2026-11-06T23:47:14.137+00:00,C0,synthetic_fn,function,test,call,14,19,0.526695,1,,,,,,,,,15540,15540,,0,,,,44.54834000000041,0
-example-synthetic,2026-11-06T23:47:14.181+00:00,C0,synthetic_fn,function,test,call,29,20,0.508129,1,,,,,,,,,15456,15456,,0,,,,43.652505999999924,0
-example-synthetic,2026-11-06T23:47:14.241+00:00,C0,synthetic_fn,function,test,call,1,21,0.508009,1,,,,,,,,,15492,15492,,0,,,,59.99408899999992,0
-example-synthetic,2026-11-06T23:47:14.298+00:00,C0,synthetic_fn,function,test,call,27,22,0.523319,1,,,,,,,,,15444,15444,,0,,,,56.957458000000294,0
-example-synthetic,2026-11-06T23:47:14.355+00:00,C0,synthetic_fn,function,test,call,4,23,0.518975,1,,,,,,,,,15484,15484,,0,,,,56.772100999999964,0
-example-synthetic,2026-11-06T23:47:14.410+00:00,C0,synthetic_fn,function,test,call,7,24,0.520866,1,,,,,,,,,15428,15428,,0,,,,54.60383200000063,0
-example-synthetic,2026-11-06T23:47:14.464+00:00,C0,synthetic_fn,function,test,call,13,25,0.530003,1,,,,,,,,,15476,15476,,0,,,,53.514118999999916,0
-example-synthetic,2026-11-06T23:47:14.523+00:00,C0,synthetic_fn,function,test,call,21,26,0.52876,1,,,,,,,,,15572,15572,,0,,,,58.76541899999932,0
-example-synthetic,2026-11-06T23:47:14.579+00:00,C0,synthetic_fn,function,test,call,30,27,0.524578,1,,,,,,,,,15468,15468,,0,,,,56.21626199999952,0
-example-synthetic,2026-11-06T23:47:14.634+00:00,C0,synthetic_fn,function,test,call,15,28,0.522873,1,,,,,,,,,15424,15424,,0,,,,54.82322499999981,0
-example-synthetic,2026-11-06T23:47:14.689+00:00,C0,synthetic_fn,function,test,call,25,29,0.525843,1,,,,,,,,,15440,15440,,0,,,,54.757444999999905,0
-example-synthetic,2026-11-06T23:47:14.745+00:00,C0,synthetic_fn,function,test,call,16,30,0.504231,1,,,,,,,,,15460,15460,,0,,,,55.78236099999945,0
-example-synthetic,2026-11-06T23:47:15.679+00:00,C1,synthetic_fn,function,test,call,3,1,0.764374,1,,,,,,,,,15440,15440,,0,,,,55.54641899999968,0
-example-synthetic,2026-11-06T23:47:15.734+00:00,C1,synthetic_fn,function,test,call,19,2,0.75846,1,,,,,,,,,15496,15496,,0,,,,54.79236600000004,0
-example-synthetic,2026-11-06T23:47:15.787+00:00,C1,synthetic_fn,function,test,call,11,3,0.785287,1,,,,,,,,,15572,15572,,0,,,,53.35452000000007,0
-example-synthetic,2026-11-06T23:47:15.840+00:00,C1,synthetic_fn,function,test,call,24,4,0.778951,1,,,,,,,,,15488,15488,,0,,,,52.37373399999967,0
-example-synthetic,2026-11-06T23:47:15.895+00:00,C1,synthetic_fn,function,test,call,5,5,0.779124,1,,,,,,,,,15456,15456,,0,,,,54.708515000000624,0
-example-synthetic,2026-11-06T23:47:15.945+00:00,C1,synthetic_fn,function,test,call,17,6,0.815266,1,,,,,,,,,15444,15444,,0,,,,49.45621099999986,0
-example-synthetic,2026-11-06T23:47:15.996+00:00,C1,synthetic_fn,function,test,call,8,7,0.760663,1,,,,,,,,,15536,15536,,0,,,,51.52132999999992,0
-example-synthetic,2026-11-06T23:47:16.047+00:00,C1,synthetic_fn,function,test,call,22,8,0.748565,1,,,,,,,,,15432,15432,,0,,,,50.738416999999814,0
-example-synthetic,2026-11-06T23:47:16.099+00:00,C1,synthetic_fn,function,test,call,18,9,0.785067,1,,,,,,,,,15484,15484,,0,,,,52.01140199999976,0
-example-synthetic,2026-11-06T23:47:16.180+00:00,C1,synthetic_fn,function,test,call,6,10,0.768018,1,,,,,,,,,15476,15476,,0,,,,79.9950909999998,0
-example-synthetic,2026-11-06T23:47:16.262+00:00,C1,synthetic_fn,function,test,call,2,11,0.788733,1,,,,,,,,,15484,15484,,0,,,,82.27630100000027,0
-example-synthetic,2026-11-06T23:47:16.326+00:00,C1,synthetic_fn,function,test,call,10,12,0.778398,1,,,,,,,,,15568,15568,,0,,,,63.529927000000264,0
-example-synthetic,2026-11-06T23:47:16.381+00:00,C1,synthetic_fn,function,test,call,23,13,0.782235,1,,,,,,,,,15452,15452,,0,,,,54.55465499999956,0
-example-synthetic,2026-11-06T23:47:16.434+00:00,C1,synthetic_fn,function,test,call,20,14,0.779214,1,,,,,,,,,15568,15568,,0,,,,52.86166099999967,0
-example-synthetic,2026-11-06T23:47:16.486+00:00,C1,synthetic_fn,function,test,call,12,15,0.783026,1,,,,,,,,,15428,15428,,0,,,,52.23092600000001,0
-example-synthetic,2026-11-06T23:47:16.548+00:00,C1,synthetic_fn,function,test,call,9,16,0.785218,1,,,,,,,,,15492,15492,,0,,,,61.768671000000275,0
-example-synthetic,2026-11-06T23:47:16.611+00:00,C1,synthetic_fn,function,test,call,28,17,0.746338,1,,,,,,,,,15488,15488,,0,,,,62.38681899999943,0
-example-synthetic,2026-11-06T23:47:16.666+00:00,C1,synthetic_fn,function,test,call,26,18,0.769137,1,,,,,,,,,15424,15424,,0,,,,55.552753999999815,0
-example-synthetic,2026-11-06T23:47:16.720+00:00,C1,synthetic_fn,function,test,call,14,19,0.76353,1,,,,,,,,,15400,15400,,0,,,,52.97715599999986,0
-example-synthetic,2026-11-06T23:47:16.774+00:00,C1,synthetic_fn,function,test,call,29,20,0.774331,1,,,,,,,,,15464,15464,,0,,,,54.08247300000024,0
-example-synthetic,2026-11-06T23:47:16.827+00:00,C1,synthetic_fn,function,test,call,1,21,0.748067,1,,,,,,,,,15456,15456,,0,,,,53.031211999999606,0
-example-synthetic,2026-11-06T23:47:16.878+00:00,C1,synthetic_fn,function,test,call,27,22,0.785942,1,,,,,,,,,15476,15476,,0,,,,50.788166000000246,0
-example-synthetic,2026-11-06T23:47:16.927+00:00,C1,synthetic_fn,function,test,call,4,23,0.787854,1,,,,,,,,,15476,15476,,0,,,,48.84297899999979,0
-example-synthetic,2026-11-06T23:47:16.978+00:00,C1,synthetic_fn,function,test,call,7,24,0.767397,1,,,,,,,,,15580,15580,,0,,,,50.985931000000484,0
-example-synthetic,2026-11-06T23:47:17.030+00:00,C1,synthetic_fn,function,test,call,13,25,0.776005,1,,,,,,,,,15448,15448,,0,,,,51.19420900000016,0
-example-synthetic,2026-11-06T23:47:17.082+00:00,C1,synthetic_fn,function,test,call,21,26,0.78884,1,,,,,,,,,15488,15488,,0,,,,52.287779000000256,0
-example-synthetic,2026-11-06T23:47:17.138+00:00,C1,synthetic_fn,function,test,call,30,27,0.769539,1,,,,,,,,,15488,15488,,0,,,,55.172627999999335,0
-example-synthetic,2026-11-06T23:47:17.190+00:00,C1,synthetic_fn,function,test,call,15,28,0.773328,1,,,,,,,,,15516,15516,,0,,,,52.736293999999795,0
-example-synthetic,2026-11-06T23:47:17.244+00:00,C1,synthetic_fn,function,test,call,25,29,0.758987,1,,,,,,,,,15456,15456,,0,,,,52.92650500000029,0
-example-synthetic,2026-11-06T23:47:17.296+00:00,C1,synthetic_fn,function,test,call,16,30,0.798411,1,,,,,,,,,15468,15468,,0,,,,52.29598300000049,0
-example-synthetic,2026-11-06T23:47:18.385+00:00,C2,synthetic_fn,function,test,call,3,1,1.482399,1,,,,,,,,,15576,15576,,0,,,,57.15171299999966,0
-example-synthetic,2026-11-06T23:47:18.440+00:00,C2,synthetic_fn,function,test,call,19,2,1.537415,1,,,,,,,,,15448,15448,,0,,,,55.274946000000824,0
-example-synthetic,2026-11-06T23:47:18.495+00:00,C2,synthetic_fn,function,test,call,11,3,1.50992,1,,,,,,,,,15572,15572,,0,,,,54.51520199999926,0
-example-synthetic,2026-11-06T23:47:18.551+00:00,C2,synthetic_fn,function,test,call,24,4,1.552933,1,,,,,,,,,15424,15424,,0,,,,56.22928699999896,0
-example-synthetic,2026-11-06T23:47:18.614+00:00,C2,synthetic_fn,function,test,call,5,5,,0,MemoryError,[timed] synthetic failure,,,,,,,15472,15472,,0,,,,63.13206799999982,0
-example-synthetic,2026-11-06T23:47:18.670+00:00,C2,synthetic_fn,function,test,call,17,6,1.552332,1,,,,,,,,,15484,15484,,0,,,,55.0957590000003,0
-example-synthetic,2026-11-06T23:47:18.726+00:00,C2,synthetic_fn,function,test,call,8,7,1.500265,1,,,,,,,,,15576,15576,,0,,,,56.08182699999986,0
-example-synthetic,2026-11-06T23:47:18.784+00:00,C2,synthetic_fn,function,test,call,22,8,1.593597,1,,,,,,,,,15572,15572,,0,,,,57.36107100000076,0
-example-synthetic,2026-11-06T23:47:18.840+00:00,C2,synthetic_fn,function,test,call,18,9,1.474166,1,,,,,,,,,15456,15456,,0,,,,56.621852999999334,0
-example-synthetic,2026-11-06T23:47:18.897+00:00,C2,synthetic_fn,function,test,call,6,10,1.533517,1,,,,,,,,,15472,15472,,0,,,,56.15571899999949,0
-example-synthetic,2026-11-06T23:47:18.962+00:00,C2,synthetic_fn,function,test,call,2,11,1.564073,1,,,,,,,,,15488,15488,,0,,,,64.66323999999979,0
-example-synthetic,2026-11-06T23:47:19.043+00:00,C2,synthetic_fn,function,test,call,10,12,1.532,1,,,,,,,,,15476,15476,,0,,,,81.33855599999862,0
-example-synthetic,2026-11-06T23:47:19.124+00:00,C2,synthetic_fn,function,test,call,23,13,1.54908,1,,,,,,,,,15548,15548,,0,,,,80.84444999999896,0
-example-synthetic,2026-11-06T23:47:19.196+00:00,C2,synthetic_fn,function,test,call,20,14,1.556527,1,,,,,,,,,15488,15488,,0,,,,71.74252400000114,0
-example-synthetic,2026-11-06T23:47:19.254+00:00,C2,synthetic_fn,function,test,call,12,15,1.477415,1,,,,,,,,,15460,15460,,0,,,,57.734226999999194,0
-example-synthetic,2026-11-06T23:47:19.313+00:00,C2,synthetic_fn,function,test,call,9,16,1.558466,1,,,,,,,,,15576,15576,,0,,,,58.036225000000385,0
-example-synthetic,2026-11-06T23:47:19.371+00:00,C2,synthetic_fn,function,test,call,28,17,1.472631,1,,,,,,,,,15448,15448,,0,,,,58.55405199999986,0
-example-synthetic,2026-11-06T23:47:19.429+00:00,C2,synthetic_fn,function,test,call,26,18,1.553081,1,,,,,,,,,15536,15536,,0,,,,57.9224319999998,0
-example-synthetic,2026-11-06T23:47:19.488+00:00,C2,synthetic_fn,function,test,call,14,19,1.492602,1,,,,,,,,,15576,15576,,0,,,,57.93814600000147,0
-example-synthetic,2026-11-06T23:47:19.540+00:00,C2,synthetic_fn,function,test,call,29,20,1.529713,1,,,,,,,,,15420,15420,,0,,,,52.73296300000041,0
-example-synthetic,2026-11-06T23:47:19.597+00:00,C2,synthetic_fn,function,test,call,1,21,1.482095,1,,,,,,,,,15580,15580,,0,,,,56.81404799999967,0
-example-synthetic,2026-11-06T23:47:19.657+00:00,C2,synthetic_fn,function,test,call,27,22,1.49314,1,,,,,,,,,15448,15448,,0,,,,59.45467600000143,0
-example-synthetic,2026-11-06T23:47:19.719+00:00,C2,synthetic_fn,function,test,call,4,23,1.519751,1,,,,,,,,,15448,15448,,0,,,,61.68801499999965,0
-example-synthetic,2026-11-06T23:47:19.780+00:00,C2,synthetic_fn,function,test,call,7,24,1.526493,1,,,,,,,,,15480,15480,,0,,,,60.44286400000054,0
-example-synthetic,2026-11-06T23:47:19.833+00:00,C2,synthetic_fn,function,test,call,13,25,1.495816,1,,,,,,,,,15532,15532,,0,,,,52.97877399999962,0
-example-synthetic,2026-11-06T23:47:19.887+00:00,C2,synthetic_fn,function,test,call,21,26,1.51819,1,,,,,,,,,15540,15540,,0,,,,53.40170800000088,0
-example-synthetic,2026-11-06T23:47:19.939+00:00,C2,synthetic_fn,function,test,call,30,27,1.488421,1,,,,,,,,,15424,15424,,0,,,,52.17832499999986,0
-example-synthetic,2026-11-06T23:47:19.992+00:00,C2,synthetic_fn,function,test,call,15,28,1.540401,1,,,,,,,,,15472,15472,,0,,,,52.658968999999445,0
-example-synthetic,2026-11-06T23:47:20.046+00:00,C2,synthetic_fn,function,test,call,25,29,1.514873,1,,,,,,,,,15500,15500,,0,,,,53.931684000000146,0
-example-synthetic,2026-11-06T23:47:20.099+00:00,C2,synthetic_fn,function,test,call,16,30,1.523138,1,,,,,,,,,15572,15572,,0,,,,53.32754400000006,0
-example-synthetic,2026-11-06T23:47:20.863+00:00,C3,synthetic_fn,function,test,call,3,1,2.999446,1,,,,,,,,,15580,15580,,0,,,,56.44687800000092,0
-example-synthetic,2026-11-06T23:47:20.920+00:00,C3,synthetic_fn,function,test,call,19,2,2.941976,1,,,,,,,,,15532,15532,,0,,,,56.71267099999966,0
-example-synthetic,2026-11-06T23:47:20.976+00:00,C3,synthetic_fn,function,test,call,11,3,3.069536,1,,,,,,,,,15448,15448,,0,,,,55.528387000000734,0
-example-synthetic,2026-11-06T23:47:21.032+00:00,C3,synthetic_fn,function,test,call,24,4,,0,MemoryError,[timed] synthetic failure,,,,,,,15536,15536,,0,,,,56.12881700000116,0
-example-synthetic,2026-11-06T23:47:21.094+00:00,C3,synthetic_fn,function,test,call,5,5,,0,MemoryError,[timed] synthetic failure,,,,,,,15440,15440,,0,,,,61.29940699999992,0
-example-synthetic,2026-11-06T23:47:21.153+00:00,C3,synthetic_fn,function,test,call,17,6,3.011557,1,,,,,,,,,15496,15496,,0,,,,58.74981600000062,0
-example-synthetic,2026-11-06T23:47:21.212+00:00,C3,synthetic_fn,function,test,call,8,7,3.075694,1,,,,,,,,,15456,15456,,0,,,,58.95155299999999,0
-example-synthetic,2026-11-06T23:47:21.262+00:00,C3,synthetic_fn,function,test,call,22,8,,0,MemoryError,[prime] synthetic failure,,,,,,,15584,15584,,0,,,,50.18116200000122,0
-example-synthetic,2026-11-06T23:47:21.319+00:00,C3,synthetic_fn,function,test,call,18,9,3.049579,1,,,,,,,,,15576,15576,,0,,,,57.1707650000004,0
-example-synthetic,2026-11-06T23:47:21.370+00:00,C3,synthetic_fn,function,test,call,6,10,,0,MemoryError,[prime] synthetic failure,,,,,,,15576,15576,,0,,,,50.47870400000143,0
-example-synthetic,2026-11-06T23:47:21.429+00:00,C3,synthetic_fn,function,test,call,2,11,3.031888,1,,,,,,,,,15480,15480,,0,,,,58.205829000000264,0
-example-synthetic,2026-11-06T23:47:21.484+00:00,C3,synthetic_fn,function,test,call,10,12,,0,MemoryError,[timed] synthetic failure,,,,,,,15444,15444,,0,,,,55.66609699999958,0
-example-synthetic,2026-11-06T23:47:21.540+00:00,C3,synthetic_fn,function,test,call,23,13,,0,MemoryError,[timed] synthetic failure,,,,,,,15464,15464,,0,,,,55.04864699999956,0
-example-synthetic,2026-11-06T23:47:21.595+00:00,C3,synthetic_fn,function,test,call,20,14,,0,MemoryError,[timed] synthetic failure,,,,,,,15468,15468,,0,,,,54.84112199999913,0
-example-synthetic,2026-11-06T23:47:21.645+00:00,C3,synthetic_fn,function,test,call,12,15,3.021107,1,,,,,,,,,15488,15488,,0,,,,49.87348899999944,0
-example-synthetic,2026-11-06T23:47:21.693+00:00,C3,synthetic_fn,function,test,call,9,16,3.025806,1,,,,,,,,,15544,15544,,0,,,,48.476709000000895,0
-example-synthetic,2026-11-06T23:47:21.735+00:00,C3,synthetic_fn,function,test,call,28,17,,0,MemoryError,[prime] synthetic failure,,,,,,,15536,15536,,0,,,,41.11082500000052,0
-example-synthetic,2026-11-06T23:47:21.784+00:00,C3,synthetic_fn,function,test,call,26,18,2.99252,1,,,,,,,,,15472,15472,,0,,,,48.97265800000028,0
-example-synthetic,2026-11-06T23:47:21.833+00:00,C3,synthetic_fn,function,test,call,14,19,2.995409,1,,,,,,,,,15396,15396,,0,,,,48.664361000000156,0
-example-synthetic,2026-11-06T23:47:21.879+00:00,C3,synthetic_fn,function,test,call,29,20,,0,MemoryError,[timed] synthetic failure,,,,,,,15436,15436,,0,,,,45.83812299999934,0
-example-synthetic,2026-11-06T23:47:21.929+00:00,C3,synthetic_fn,function,test,call,1,21,3.045122,1,,,,,,,,,15436,15436,,0,,,,49.931331999999884,0
-example-synthetic,2026-11-06T23:47:21.970+00:00,C3,synthetic_fn,function,test,call,27,22,,0,MemoryError,[prime] synthetic failure,,,,,,,15576,15576,,0,,,,41.56987000000001,0
-example-synthetic,2026-11-06T23:47:22.019+00:00,C3,synthetic_fn,function,test,call,4,23,3.061304,1,,,,,,,,,15536,15536,,0,,,,49.01972399999899,0
-example-synthetic,2026-11-06T23:47:22.068+00:00,C3,synthetic_fn,function,test,call,7,24,3.093615,1,,,,,,,,,15544,15544,,0,,,,48.83530500000077,0
-example-synthetic,2026-11-06T23:47:22.117+00:00,C3,synthetic_fn,function,test,call,13,25,2.995084,1,,,,,,,,,15476,15476,,0,,,,48.52061499999927,0
-example-synthetic,2026-11-06T23:47:22.166+00:00,C3,synthetic_fn,function,test,call,21,26,3.033548,1,,,,,,,,,15440,15440,,0,,,,49.10723899999958,0
-example-synthetic,2026-11-06T23:47:22.215+00:00,C3,synthetic_fn,function,test,call,30,27,2.946242,1,,,,,,,,,15444,15444,,0,,,,48.703673000000336,0
-example-synthetic,2026-11-06T23:47:22.264+00:00,C3,synthetic_fn,function,test,call,15,28,3.10033,1,,,,,,,,,15444,15444,,0,,,,48.29408499999843,0
-example-synthetic,2026-11-06T23:47:22.319+00:00,C3,synthetic_fn,function,test,call,25,29,3.055822,1,,,,,,,,,15580,15580,,0,,,,55.1271929999988,0
-example-synthetic,2026-11-06T23:47:22.370+00:00,C3,synthetic_fn,function,test,call,16,30,,0,MemoryError,[timed] synthetic failure,,,,,,,15500,15500,,0,,,,51.06105099999958,0
+run_id,timestamp_utc,profile,algorithm,kind,family,operation,trial,order_index,latency_ms,success,error_type,error_message,public_key_bytes,secret_key_bytes,ciphertext_bytes,shared_secret_bytes,signature_bytes,plaintext_bytes,worker_baseline_rss_kb,worker_peak_rss_kb,container_mem_peak_kb,container_peak_reset,container_anon_kb,container_mem_kb,oom_kills,throttled_periods,throttled_ms,timed_throttled_periods,timed_throttled_ms,worker_wall_ms,exit_code
+example-synthetic,2026-11-08T13:47:49.537+00:00,C0,synthetic_fn,function,test,call,3,1,0.517293,1,,,,,,,,,15624,15624,,0,,,,,,,,69.57076600000178,0
+example-synthetic,2026-11-08T13:47:49.610+00:00,C0,synthetic_fn,function,test,call,19,2,0.531176,1,,,,,,,,,15768,15768,,0,,,,,,,,72.88395900000211,0
+example-synthetic,2026-11-08T13:47:49.685+00:00,C0,synthetic_fn,function,test,call,11,3,0.50737,1,,,,,,,,,15776,15776,,0,,,,,,,,74.16080500000177,0
+example-synthetic,2026-11-08T13:47:49.765+00:00,C0,synthetic_fn,function,test,call,24,4,0.524608,1,,,,,,,,,15592,15592,,0,,,,,,,,79.954579999999,0
+example-synthetic,2026-11-08T13:47:49.839+00:00,C0,synthetic_fn,function,test,call,5,5,0.497263,1,,,,,,,,,15672,15672,,0,,,,,,,,72.85662900000034,0
+example-synthetic,2026-11-08T13:47:49.901+00:00,C0,synthetic_fn,function,test,call,17,6,0.514509,1,,,,,,,,,15624,15624,,0,,,,,,,,61.46388499999844,0
+example-synthetic,2026-11-08T13:47:49.985+00:00,C0,synthetic_fn,function,test,call,8,7,0.552658,1,,,,,,,,,15684,15684,,0,,,,,,,,83.64786100000288,0
+example-synthetic,2026-11-08T13:47:50.045+00:00,C0,synthetic_fn,function,test,call,22,8,0.513345,1,,,,,,,,,15640,15640,,0,,,,,,,,59.89829499999999,0
+example-synthetic,2026-11-08T13:47:50.107+00:00,C0,synthetic_fn,function,test,call,18,9,0.525344,1,,,,,,,,,15660,15660,,0,,,,,,,,61.491485999997764,0
+example-synthetic,2026-11-08T13:47:50.168+00:00,C0,synthetic_fn,function,test,call,6,10,0.505933,1,,,,,,,,,15740,15740,,0,,,,,,,,60.661803000002124,0
+example-synthetic,2026-11-08T13:47:50.231+00:00,C0,synthetic_fn,function,test,call,2,11,0.497584,1,,,,,,,,,15644,15644,,0,,,,,,,,62.38685900000007,0
+example-synthetic,2026-11-08T13:47:50.307+00:00,C0,synthetic_fn,function,test,call,10,12,0.516466,1,,,,,,,,,15684,15684,,0,,,,,,,,75.73534199999798,0
+example-synthetic,2026-11-08T13:47:50.392+00:00,C0,synthetic_fn,function,test,call,23,13,0.509029,1,,,,,,,,,15736,15736,,0,,,,,,,,84.1026549999988,0
+example-synthetic,2026-11-08T13:47:50.458+00:00,C0,synthetic_fn,function,test,call,20,14,0.540845,1,,,,,,,,,15644,15644,,0,,,,,,,,66.09059200000189,0
+example-synthetic,2026-11-08T13:47:50.525+00:00,C0,synthetic_fn,function,test,call,12,15,0.52046,1,,,,,,,,,15668,15668,,0,,,,,,,,66.61593200000127,0
+example-synthetic,2026-11-08T13:47:50.589+00:00,C0,synthetic_fn,function,test,call,9,16,0.505719,1,,,,,,,,,15740,15740,,0,,,,,,,,62.689209999998496,0
+example-synthetic,2026-11-08T13:47:50.650+00:00,C0,synthetic_fn,function,test,call,28,17,0.501201,1,,,,,,,,,15776,15776,,0,,,,,,,,60.97534200000254,0
+example-synthetic,2026-11-08T13:47:50.721+00:00,C0,synthetic_fn,function,test,call,26,18,0.520469,1,,,,,,,,,15776,15776,,0,,,,,,,,70.42149499999795,0
+example-synthetic,2026-11-08T13:47:50.785+00:00,C0,synthetic_fn,function,test,call,14,19,0.517459,1,,,,,,,,,15732,15732,,0,,,,,,,,64.12550800000005,0
+example-synthetic,2026-11-08T13:47:50.856+00:00,C0,synthetic_fn,function,test,call,29,20,0.534268,1,,,,,,,,,15632,15632,,0,,,,,,,,70.33935599999808,0
+example-synthetic,2026-11-08T13:47:50.946+00:00,C0,synthetic_fn,function,test,call,1,21,0.508527,1,,,,,,,,,15648,15648,,0,,,,,,,,89.66461900000056,0
+example-synthetic,2026-11-08T13:47:51.037+00:00,C0,synthetic_fn,function,test,call,27,22,0.521846,1,,,,,,,,,15732,15732,,0,,,,,,,,90.17095100000105,0
+example-synthetic,2026-11-08T13:47:51.127+00:00,C0,synthetic_fn,function,test,call,4,23,0.540285,1,,,,,,,,,15732,15732,,0,,,,,,,,89.58598599999945,0
+example-synthetic,2026-11-08T13:47:51.217+00:00,C0,synthetic_fn,function,test,call,7,24,0.511787,1,,,,,,,,,15620,15620,,0,,,,,,,,89.11815699999792,0
+example-synthetic,2026-11-08T13:47:51.288+00:00,C0,synthetic_fn,function,test,call,13,25,0.508583,1,,,,,,,,,15680,15680,,0,,,,,,,,70.77975300000006,0
+example-synthetic,2026-11-08T13:47:51.361+00:00,C0,synthetic_fn,function,test,call,21,26,0.497447,1,,,,,,,,,15684,15684,,0,,,,,,,,71.82990600000139,0
+example-synthetic,2026-11-08T13:47:51.419+00:00,C0,synthetic_fn,function,test,call,30,27,0.499493,1,,,,,,,,,15636,15636,,0,,,,,,,,57.712268000003064,0
+example-synthetic,2026-11-08T13:47:51.476+00:00,C0,synthetic_fn,function,test,call,15,28,0.525042,1,,,,,,,,,15660,15660,,0,,,,,,,,56.01069499999767,0
+example-synthetic,2026-11-08T13:47:51.534+00:00,C0,synthetic_fn,function,test,call,25,29,0.516222,1,,,,,,,,,15644,15644,,0,,,,,,,,57.87436299999982,0
+example-synthetic,2026-11-08T13:47:51.592+00:00,C0,synthetic_fn,function,test,call,16,30,0.514167,1,,,,,,,,,15644,15644,,0,,,,,,,,57.710113999998924,0
+example-synthetic,2026-11-08T13:47:52.710+00:00,C1,synthetic_fn,function,test,call,3,1,0.764684,1,,,,,,,,,15676,15676,,0,,,,,,,,77.30632100000179,0
+example-synthetic,2026-11-08T13:47:52.767+00:00,C1,synthetic_fn,function,test,call,19,2,0.744517,1,,,,,,,,,15772,15772,,0,,,,,,,,56.73249399999847,0
+example-synthetic,2026-11-08T13:47:52.829+00:00,C1,synthetic_fn,function,test,call,11,3,0.779337,1,,,,,,,,,15668,15668,,0,,,,,,,,61.275402999999784,0
+example-synthetic,2026-11-08T13:47:52.890+00:00,C1,synthetic_fn,function,test,call,24,4,0.783596,1,,,,,,,,,15640,15640,,0,,,,,,,,60.9703479999979,0
+example-synthetic,2026-11-08T13:47:52.954+00:00,C1,synthetic_fn,function,test,call,5,5,0.759243,1,,,,,,,,,15672,15672,,0,,,,,,,,63.83419499999832,0
+example-synthetic,2026-11-08T13:47:53.037+00:00,C1,synthetic_fn,function,test,call,17,6,0.78725,1,,,,,,,,,15740,15740,,0,,,,,,,,82.28614700000136,0
+example-synthetic,2026-11-08T13:47:53.107+00:00,C1,synthetic_fn,function,test,call,8,7,0.783751,1,,,,,,,,,15680,15680,,0,,,,,,,,69.84799399999986,0
+example-synthetic,2026-11-08T13:47:53.176+00:00,C1,synthetic_fn,function,test,call,22,8,0.769027,1,,,,,,,,,15624,15624,,0,,,,,,,,67.90780800000107,0
+example-synthetic,2026-11-08T13:47:53.246+00:00,C1,synthetic_fn,function,test,call,18,9,0.769183,1,,,,,,,,,15772,15772,,0,,,,,,,,69.7132790000019,0
+example-synthetic,2026-11-08T13:47:53.310+00:00,C1,synthetic_fn,function,test,call,6,10,0.75071,1,,,,,,,,,15696,15696,,0,,,,,,,,63.83907000000022,0
+example-synthetic,2026-11-08T13:47:53.375+00:00,C1,synthetic_fn,function,test,call,2,11,0.759534,1,,,,,,,,,15692,15692,,0,,,,,,,,64.71160399999931,0
+example-synthetic,2026-11-08T13:47:53.437+00:00,C1,synthetic_fn,function,test,call,10,12,0.746921,1,,,,,,,,,15660,15660,,0,,,,,,,,61.83835200000232,0
+example-synthetic,2026-11-08T13:47:53.502+00:00,C1,synthetic_fn,function,test,call,23,13,0.744305,1,,,,,,,,,15732,15732,,0,,,,,,,,64.08413400000157,0
+example-synthetic,2026-11-08T13:47:53.575+00:00,C1,synthetic_fn,function,test,call,20,14,0.74869,1,,,,,,,,,15620,15620,,0,,,,,,,,72.20258399999935,0
+example-synthetic,2026-11-08T13:47:53.643+00:00,C1,synthetic_fn,function,test,call,12,15,0.769368,1,,,,,,,,,15672,15672,,0,,,,,,,,67.56742199999977,0
+example-synthetic,2026-11-08T13:47:53.711+00:00,C1,synthetic_fn,function,test,call,9,16,0.746264,1,,,,,,,,,15648,15648,,0,,,,,,,,67.58618900000002,0
+example-synthetic,2026-11-08T13:47:53.780+00:00,C1,synthetic_fn,function,test,call,28,17,0.793636,1,,,,,,,,,15724,15724,,0,,,,,,,,68.92476200000175,0
+example-synthetic,2026-11-08T13:47:53.850+00:00,C1,synthetic_fn,function,test,call,26,18,0.908723,1,,,,,,,,,15772,15772,,0,,,,,,,,69.70218500000058,0
+example-synthetic,2026-11-08T13:47:53.925+00:00,C1,synthetic_fn,function,test,call,14,19,0.803035,1,,,,,,,,,15636,15636,,0,,,,,,,,73.72036499999979,0
+example-synthetic,2026-11-08T13:47:53.991+00:00,C1,synthetic_fn,function,test,call,29,20,0.771578,1,,,,,,,,,15660,15660,,0,,,,,,,,65.75357999999909,0
+example-synthetic,2026-11-08T13:47:54.054+00:00,C1,synthetic_fn,function,test,call,1,21,0.754998,1,,,,,,,,,15572,15572,,0,,,,,,,,62.92498199999841,0
+example-synthetic,2026-11-08T13:47:54.119+00:00,C1,synthetic_fn,function,test,call,27,22,0.743376,1,,,,,,,,,15660,15660,,0,,,,,,,,63.82471499999909,0
+example-synthetic,2026-11-08T13:47:54.185+00:00,C1,synthetic_fn,function,test,call,4,23,0.77898,1,,,,,,,,,15692,15692,,0,,,,,,,,65.51890800000137,0
+example-synthetic,2026-11-08T13:47:54.249+00:00,C1,synthetic_fn,function,test,call,7,24,0.779125,1,,,,,,,,,15640,15640,,0,,,,,,,,64.36488699999998,0
+example-synthetic,2026-11-08T13:47:54.309+00:00,C1,synthetic_fn,function,test,call,13,25,0.75222,1,,,,,,,,,15776,15776,,0,,,,,,,,59.045217000001315,0
+example-synthetic,2026-11-08T13:47:54.372+00:00,C1,synthetic_fn,function,test,call,21,26,0.755673,1,,,,,,,,,15764,15764,,0,,,,,,,,62.955049000002816,0
+example-synthetic,2026-11-08T13:47:54.437+00:00,C1,synthetic_fn,function,test,call,30,27,0.761795,1,,,,,,,,,15664,15664,,0,,,,,,,,64.53933300000259,0
+example-synthetic,2026-11-08T13:47:54.499+00:00,C1,synthetic_fn,function,test,call,15,28,0.739791,1,,,,,,,,,15672,15672,,0,,,,,,,,61.40656599999872,0
+example-synthetic,2026-11-08T13:47:54.572+00:00,C1,synthetic_fn,function,test,call,25,29,0.754341,1,,,,,,,,,15700,15700,,0,,,,,,,,71.93766299999993,0
+example-synthetic,2026-11-08T13:47:54.658+00:00,C1,synthetic_fn,function,test,call,16,30,0.786014,1,,,,,,,,,15644,15644,,0,,,,,,,,85.5197160000003,0
+example-synthetic,2026-11-08T13:47:55.900+00:00,C2,synthetic_fn,function,test,call,3,1,1.473805,1,,,,,,,,,15644,15644,,0,,,,,,,,75.12066800000028,0
+example-synthetic,2026-11-08T13:47:55.978+00:00,C2,synthetic_fn,function,test,call,19,2,,0,MemoryError,[prime] synthetic failure,,,,,,,15680,15680,,0,,,,,,,,77.70789800000344,0
+example-synthetic,2026-11-08T13:47:56.061+00:00,C2,synthetic_fn,function,test,call,11,3,1.488632,1,,,,,,,,,15668,15668,,0,,,,,,,,82.43231500000192,0
+example-synthetic,2026-11-08T13:47:56.128+00:00,C2,synthetic_fn,function,test,call,24,4,1.512632,1,,,,,,,,,15620,15620,,0,,,,,,,,66.36961399999919,0
+example-synthetic,2026-11-08T13:47:56.203+00:00,C2,synthetic_fn,function,test,call,5,5,1.474123,1,,,,,,,,,15776,15776,,0,,,,,,,,74.51503999999787,0
+example-synthetic,2026-11-08T13:47:56.285+00:00,C2,synthetic_fn,function,test,call,17,6,,0,MemoryError,[prime] synthetic failure,,,,,,,15636,15636,,0,,,,,,,,81.23418999999998,0
+example-synthetic,2026-11-08T13:47:56.376+00:00,C2,synthetic_fn,function,test,call,8,7,1.485368,1,,,,,,,,,15768,15768,,0,,,,,,,,90.64528200000055,0
+example-synthetic,2026-11-08T13:47:56.462+00:00,C2,synthetic_fn,function,test,call,22,8,1.527134,1,,,,,,,,,15736,15736,,0,,,,,,,,85.15238600000075,0
+example-synthetic,2026-11-08T13:47:56.528+00:00,C2,synthetic_fn,function,test,call,18,9,1.538576,1,,,,,,,,,15624,15624,,0,,,,,,,,65.49993200000159,0
+example-synthetic,2026-11-08T13:47:56.588+00:00,C2,synthetic_fn,function,test,call,6,10,,0,MemoryError,[prime] synthetic failure,,,,,,,15692,15692,,0,,,,,,,,60.20087199999935,0
+example-synthetic,2026-11-08T13:47:56.654+00:00,C2,synthetic_fn,function,test,call,2,11,1.479419,1,,,,,,,,,15648,15648,,0,,,,,,,,65.12322500000067,0
+example-synthetic,2026-11-08T13:47:56.719+00:00,C2,synthetic_fn,function,test,call,10,12,1.504579,1,,,,,,,,,15732,15732,,0,,,,,,,,64.43824100000128,0
+example-synthetic,2026-11-08T13:47:56.782+00:00,C2,synthetic_fn,function,test,call,23,13,,0,MemoryError,[timed] synthetic failure,,,,,,,15632,15632,,0,,,,,,,,62.23215800000048,0
+example-synthetic,2026-11-08T13:47:56.845+00:00,C2,synthetic_fn,function,test,call,20,14,1.525047,1,,,,,,,,,15640,15640,,0,,,,,,,,62.99878800000158,0
+example-synthetic,2026-11-08T13:47:56.918+00:00,C2,synthetic_fn,function,test,call,12,15,,0,MemoryError,[timed] synthetic failure,,,,,,,15632,15632,,0,,,,,,,,72.43661999999773,0
+example-synthetic,2026-11-08T13:47:56.991+00:00,C2,synthetic_fn,function,test,call,9,16,1.542107,1,,,,,,,,,15672,15672,,0,,,,,,,,72.69365999999877,0
+example-synthetic,2026-11-08T13:47:57.061+00:00,C2,synthetic_fn,function,test,call,28,17,1.50548,1,,,,,,,,,15624,15624,,0,,,,,,,,68.92829399999911,0
+example-synthetic,2026-11-08T13:47:57.127+00:00,C2,synthetic_fn,function,test,call,26,18,1.552924,1,,,,,,,,,15732,15732,,0,,,,,,,,66.24858099999997,0
+example-synthetic,2026-11-08T13:47:57.189+00:00,C2,synthetic_fn,function,test,call,14,19,1.515216,1,,,,,,,,,15624,15624,,0,,,,,,,,60.861141999996704,0
+example-synthetic,2026-11-08T13:47:57.249+00:00,C2,synthetic_fn,function,test,call,29,20,1.485788,1,,,,,,,,,15684,15684,,0,,,,,,,,59.920693000002245,0
+example-synthetic,2026-11-08T13:47:57.310+00:00,C2,synthetic_fn,function,test,call,1,21,1.501322,1,,,,,,,,,15768,15768,,0,,,,,,,,60.53327700000111,0
+example-synthetic,2026-11-08T13:47:57.370+00:00,C2,synthetic_fn,function,test,call,27,22,1.502036,1,,,,,,,,,15768,15768,,0,,,,,,,,59.92281300000002,0
+example-synthetic,2026-11-08T13:47:57.434+00:00,C2,synthetic_fn,function,test,call,4,23,1.529711,1,,,,,,,,,15668,15668,,0,,,,,,,,63.34213799999944,0
+example-synthetic,2026-11-08T13:47:57.498+00:00,C2,synthetic_fn,function,test,call,7,24,1.467638,1,,,,,,,,,15768,15768,,0,,,,,,,,63.30590600000008,0
+example-synthetic,2026-11-08T13:47:57.556+00:00,C2,synthetic_fn,function,test,call,13,25,,0,MemoryError,[prime] synthetic failure,,,,,,,15620,15620,,0,,,,,,,,57.70116699999761,0
+example-synthetic,2026-11-08T13:47:57.619+00:00,C2,synthetic_fn,function,test,call,21,26,1.46765,1,,,,,,,,,15740,15740,,0,,,,,,,,62.50657899999723,0
+example-synthetic,2026-11-08T13:47:57.681+00:00,C2,synthetic_fn,function,test,call,30,27,,0,MemoryError,[timed] synthetic failure,,,,,,,15624,15624,,0,,,,,,,,61.03887800000152,0
+example-synthetic,2026-11-08T13:47:57.745+00:00,C2,synthetic_fn,function,test,call,15,28,1.528243,1,,,,,,,,,15740,15740,,0,,,,,,,,63.39208700000043,0
+example-synthetic,2026-11-08T13:47:57.808+00:00,C2,synthetic_fn,function,test,call,25,29,1.545638,1,,,,,,,,,15684,15684,,0,,,,,,,,62.78836799999965,0
+example-synthetic,2026-11-08T13:47:57.869+00:00,C2,synthetic_fn,function,test,call,16,30,1.479263,1,,,,,,,,,15632,15632,,0,,,,,,,,60.9174089999982,0
+example-synthetic,2026-11-08T13:47:58.803+00:00,C3,synthetic_fn,function,test,call,3,1,3.082648,1,,,,,,,,,15668,15668,,0,,,,,,,,87.6838080000013,0
+example-synthetic,2026-11-08T13:47:58.880+00:00,C3,synthetic_fn,function,test,call,19,2,,0,MemoryError,[timed] synthetic failure,,,,,,,15624,15624,,0,,,,,,,,76.53723899999676,0
+example-synthetic,2026-11-08T13:47:58.965+00:00,C3,synthetic_fn,function,test,call,11,3,2.949806,1,,,,,,,,,15672,15672,,0,,,,,,,,84.5365250000043,0
+example-synthetic,2026-11-08T13:47:59.035+00:00,C3,synthetic_fn,function,test,call,24,4,,0,MemoryError,[prime] synthetic failure,,,,,,,15632,15632,,0,,,,,,,,69.29772800000222,0
+example-synthetic,2026-11-08T13:47:59.119+00:00,C3,synthetic_fn,function,test,call,5,5,3.009176,1,,,,,,,,,15632,15632,,0,,,,,,,,84.25276300000206,0
+example-synthetic,2026-11-08T13:47:59.177+00:00,C3,synthetic_fn,function,test,call,17,6,,0,MemoryError,[prime] synthetic failure,,,,,,,15644,15644,,0,,,,,,,,57.39300700000172,0
+example-synthetic,2026-11-08T13:47:59.244+00:00,C3,synthetic_fn,function,test,call,8,7,3.09935,1,,,,,,,,,15664,15664,,0,,,,,,,,65.9782600000014,0
+example-synthetic,2026-11-08T13:47:59.311+00:00,C3,synthetic_fn,function,test,call,22,8,3.059907,1,,,,,,,,,15684,15684,,0,,,,,,,,66.35513200000531,0
+example-synthetic,2026-11-08T13:47:59.374+00:00,C3,synthetic_fn,function,test,call,18,9,3.04116,1,,,,,,,,,15684,15684,,0,,,,,,,,62.690590999999074,0
+example-synthetic,2026-11-08T13:47:59.442+00:00,C3,synthetic_fn,function,test,call,6,10,3.04582,1,,,,,,,,,15776,15776,,0,,,,,,,,67.2355660000008,0
+example-synthetic,2026-11-08T13:47:59.512+00:00,C3,synthetic_fn,function,test,call,2,11,3.030181,1,,,,,,,,,15768,15768,,0,,,,,,,,69.16916699999831,0
+example-synthetic,2026-11-08T13:47:59.579+00:00,C3,synthetic_fn,function,test,call,10,12,3.057993,1,,,,,,,,,15632,15632,,0,,,,,,,,67.00285799999506,0
+example-synthetic,2026-11-08T13:47:59.657+00:00,C3,synthetic_fn,function,test,call,23,13,,0,MemoryError,[prime] synthetic failure,,,,,,,15620,15620,,0,,,,,,,,76.95330799999311,0
+example-synthetic,2026-11-08T13:47:59.737+00:00,C3,synthetic_fn,function,test,call,20,14,3.102854,1,,,,,,,,,15772,15772,,0,,,,,,,,79.62179499999422,0
+example-synthetic,2026-11-08T13:47:59.797+00:00,C3,synthetic_fn,function,test,call,12,15,,0,MemoryError,[prime] synthetic failure,,,,,,,15772,15772,,0,,,,,,,,60.29350600000072,0
+example-synthetic,2026-11-08T13:47:59.857+00:00,C3,synthetic_fn,function,test,call,9,16,,0,MemoryError,[prime] synthetic failure,,,,,,,15776,15776,,0,,,,,,,,58.668535000002464,0
+example-synthetic,2026-11-08T13:47:59.929+00:00,C3,synthetic_fn,function,test,call,28,17,3.116173,1,,,,,,,,,15676,15676,,0,,,,,,,,72.19976200000389,0
+example-synthetic,2026-11-08T13:47:59.998+00:00,C3,synthetic_fn,function,test,call,26,18,2.962505,1,,,,,,,,,15648,15648,,0,,,,,,,,68.17202599999916,0
+example-synthetic,2026-11-08T13:48:00.067+00:00,C3,synthetic_fn,function,test,call,14,19,3.043602,1,,,,,,,,,15680,15680,,0,,,,,,,,68.13315700000544,0
+example-synthetic,2026-11-08T13:48:00.133+00:00,C3,synthetic_fn,function,test,call,29,20,2.929335,1,,,,,,,,,15648,15648,,0,,,,,,,,66.48878200000041,0
+example-synthetic,2026-11-08T13:48:00.205+00:00,C3,synthetic_fn,function,test,call,1,21,2.997477,1,,,,,,,,,15616,15616,,0,,,,,,,,71.19513300000335,0
+example-synthetic,2026-11-08T13:48:00.289+00:00,C3,synthetic_fn,function,test,call,27,22,3.009051,1,,,,,,,,,15632,15632,,0,,,,,,,,83.02300300000098,0
+example-synthetic,2026-11-08T13:48:00.364+00:00,C3,synthetic_fn,function,test,call,4,23,3.00613,1,,,,,,,,,15640,15640,,0,,,,,,,,75.25509199999902,0
+example-synthetic,2026-11-08T13:48:00.438+00:00,C3,synthetic_fn,function,test,call,7,24,,0,MemoryError,[prime] synthetic failure,,,,,,,15684,15684,,0,,,,,,,,73.19514699999985,0
+example-synthetic,2026-11-08T13:48:00.509+00:00,C3,synthetic_fn,function,test,call,13,25,3.051403,1,,,,,,,,,15764,15764,,0,,,,,,,,70.71075300000018,0
+example-synthetic,2026-11-08T13:48:00.578+00:00,C3,synthetic_fn,function,test,call,21,26,,0,MemoryError,[timed] synthetic failure,,,,,,,15668,15668,,0,,,,,,,,68.7031010000041,0
+example-synthetic,2026-11-08T13:48:00.645+00:00,C3,synthetic_fn,function,test,call,30,27,3.047023,1,,,,,,,,,15656,15656,,0,,,,,,,,66.37880499999937,0
+example-synthetic,2026-11-08T13:48:00.712+00:00,C3,synthetic_fn,function,test,call,15,28,,0,MemoryError,[timed] synthetic failure,,,,,,,15588,15588,,0,,,,,,,,66.05320100000256,0
+example-synthetic,2026-11-08T13:48:00.776+00:00,C3,synthetic_fn,function,test,call,25,29,,0,MemoryError,[prime] synthetic failure,,,,,,,15732,15732,,0,,,,,,,,64.05401500000352,0
+example-synthetic,2026-11-08T13:48:00.847+00:00,C3,synthetic_fn,function,test,call,16,30,3.102784,1,,,,,,,,,15776,15776,,0,,,,,,,,70.11072700000653,0

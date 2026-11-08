@@ -33,9 +33,12 @@ def timer_info() -> dict[str, Any]:
 # ---------------------------------------------------------------------------
 # Task 1: timing
 # ---------------------------------------------------------------------------
-def timed_call(fn: Callable[..., Any], *args: Any, **kwargs: Any) -> tuple[float, Any]:
-    """Call fn once. Returns (elapsed_ms, result). If fn raises, the exception propagates."""
-    gc.collect()                       # before the timer: no collection pause inside it
+def timed_call(fn: Callable[..., Any], *args: Any, _collect: bool = True, **kwargs: Any) -> tuple[float, Any]:
+    """Call fn once. Returns (elapsed_ms, result). If fn raises, the exception propagates.
+    _collect=False skips the gc.collect() that normally runs just before the timer (the caller
+    has already collected; a collection right before timing would burn CPU quota)."""
+    if _collect:
+        gc.collect()                   # before the timer: no collection pause inside it
     was_enabled = gc.isenabled()
     gc.disable()
     try:
@@ -52,7 +55,7 @@ def timed_call(fn: Callable[..., Any], *args: Any, **kwargs: Any) -> tuple[float
 class BatchResult:
     attempted: int
     completed: int
-    duration_ms: float          # time spent inside fn; progress callbacks are excluded
+    duration_ms: float          # wall-clock of the whole batch, first call to last call
     last_result: Any = None
     error: BaseException | None = None
 
@@ -64,37 +67,40 @@ class BatchResult:
 
 
 def timed_batch(fn: Callable[..., Any], *args: Any, n: int = 100, chunks: int = 10,
-                on_progress: Callable[[int], None] | None = None) -> BatchResult:
-    """Run fn(*args) n times back to back, in `chunks` timed blocks.
+                on_progress: Callable[[int], None] | None = None, collect: bool = True) -> BatchResult:
+    """Run fn(*args) n times back to back and return the wall-clock time of the whole batch.
 
-    Each block is timed on its own and on_progress(done) is called between blocks, outside
-    the timer. That lets the parent process learn how many operations finished if the
-    worker is later killed (timeout / OOM). Total duration = sum of the block durations.
-    A failing call stops the batch and is returned in .error with the count completed.
+    The batch is run in `chunks` blocks and on_progress(done) is called between blocks so that
+    the parent can learn how many operations finished if the worker is later killed. The
+    callback is INSIDE the measured time, so it must be a few microseconds (the runner writes
+    one integer into a memory-mapped file, no system call). Wall-clock is used on purpose:
+    under a CPU quota a stall can land between two calls, and time spent outside the calls is
+    still time the batch took. A failing call stops the batch; .error holds it and .completed
+    the number of calls that finished before it.
     """
     sizes = [s for s in (n // chunks + (1 if i < n % chunks else 0) for i in range(chunks)) if s > 0]
-    done, total_ns, last, error = 0, 0, None, None
-    gc.collect()
+    done, last, error = 0, None, None
+    if collect:
+        gc.collect()
     was_enabled = gc.isenabled()
     gc.disable()
+    t0 = time.perf_counter_ns()
     try:
         for size in sizes:
             k = 0
-            t0 = time.perf_counter_ns()
             try:
                 for k in range(size):
                     last = fn(*args)
                 k = size
             except Exception as exc:
-                total_ns += time.perf_counter_ns() - t0
                 done += k           # k = number of calls that finished before the failure
                 error = exc
                 break
-            total_ns += time.perf_counter_ns() - t0
             done += size
             if on_progress is not None:
                 on_progress(done)
     finally:
+        total_ns = time.perf_counter_ns() - t0
         if was_enabled:
             gc.enable()
     return BatchResult(n, done, total_ns / NS_PER_MS, last, error)
@@ -189,6 +195,17 @@ class Cgroup:
             return True
         except OSError:
             return False
+
+    def sample(self) -> dict[str, Any]:
+        """Point-in-time container counters: memory incl. page cache, anonymous memory (no page
+        cache) and the cumulative CPU-throttle counters. A few small file reads, so call it
+        OUTSIDE any timer. Values are None where the cgroup file is unreadable."""
+        cur = self._read("memory.current")
+        anon = self._kv("memory.stat").get("anon")
+        cpu = self._kv("cpu.stat")
+        return {"mem_kb": int(cur) // 1024 if cur and cur.isdigit() else None,
+                "anon_kb": None if anon is None else anon // 1024,
+                "throttled": cpu.get("nr_throttled"), "throttled_usec": cpu.get("throttled_usec")}
 
     def begin(self) -> dict[str, Any]:
         """Call just before starting a worker: resets the peak and snapshots the counters."""

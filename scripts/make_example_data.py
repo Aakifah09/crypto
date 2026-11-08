@@ -27,7 +27,7 @@ def main() -> int:
         env = {**os.environ, "SYNTH_SLOWDOWN": slow, "SYNTH_FAIL_RATE": fail}
         cmd = [sys.executable, "-m", "benchmark.runner", "--profile", profile, "--out", str(out),
                "--run-id", "example-synthetic", "--targets", "fn:tests.fixtures:synthetic_fn",
-               "--skip-correctness-check", "--allow-profile-mismatch", "--batch-size", "100"]
+               "--skip-correctness-check", "--allow-profile-mismatch", "--batch-size", "100", "--settle-ms", "0"]
         subprocess.run(cmd, env=env, check=True)
     return 0
 

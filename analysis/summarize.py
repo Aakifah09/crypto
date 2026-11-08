@@ -113,7 +113,8 @@ def summarize_latency(trials: list[dict]) -> list[dict]:
             if b:
                 lo, hi = bootstrap_ratio_ci(ok, b)
                 row.update(slowdown_vs_c0=med / statistics.median(b), slowdown_ci_low=lo, slowdown_ci_high=hi)
-        row["trials_with_cpu_throttling"] = sum(1 for r in rs if (r.get("throttled_periods") or 0) > 0)
+        known = [r for r in rs if r.get("timed_throttled_periods") is not None]
+        row["trials_throttled_in_timed_call"] = sum(1 for r in known if r["timed_throttled_periods"] > 0) if known else None
         out.append(row)
     return out
 
@@ -131,9 +132,12 @@ def summarize_throughput(batches: list[dict]) -> list[dict]:
                                "op_completion_rate": done / attempted if attempted else None}
         if ok:
             q1, med, q3 = quartiles(ok)
-            row.update(median_ops_s=med, q1_ops_s=q1, q3_ops_s=q3, iqr_ops_s=q3 - q1)
+            row.update(median_ops_s=med, q1_ops_s=q1, q3_ops_s=q3, iqr_ops_s=q3 - q1,
+                       min_ops_s=min(ok), max_ops_s=max(ok))
             if base.get((a, o)):
                 row["throughput_slowdown_vs_c0"] = statistics.median(base[(a, o)]) / med
+        known = [r for r in rs if r.get("timed_throttled_periods") is not None]
+        row["batches_throttled"] = sum(1 for r in known if r["timed_throttled_periods"] > 0) if known else None
         out.append(row)
     return out
 
@@ -168,6 +172,8 @@ def summarize_memory(trials: list[dict]) -> list[dict]:
                     "median_worker_peak_rss_kb": _med(peak), "max_worker_peak_rss_kb": max(peak, default=None),
                     "median_worker_baseline_rss_kb": _med(base),
                     "median_container_peak_kb": _med(cont), "max_container_peak_kb": max(cont, default=None),
+                    "median_container_anon_kb": _med(_ok(rs, "container_anon_kb")),
+                    "median_container_mem_kb": _med(_ok(rs, "container_mem_kb")),
                     "container_peak_is_per_worker": int(any(r.get("container_peak_reset") == 1 for r in rs))})
     return out
 
@@ -225,6 +231,13 @@ def markdown_tables(lat, thr, comp, profiles) -> str:
                       lambda r: g(r.get("p95_ms")), profiles)]
     if thr:
         parts.append(pivot_md("Median throughput in operations/s", thr, lambda r: g(r.get("median_ops_s")), profiles))
+    parts.append(pivot_md("Trials whose timed call hit CPU throttling (count of recorded trials)", lat,
+                          lambda r: "n/a" if r.get("trials_throttled_in_timed_call") is None else
+                          f"{r['trials_throttled_in_timed_call']}/{r['n_recorded']}", profiles))
+    if thr:
+        parts.append(pivot_md("Batches that hit CPU throttling (count of batches; a stall waits up to one 100 ms period)",
+                              thr, lambda r: "n/a" if r.get("batches_throttled") is None else
+                              f"{r['batches_throttled']}/{r['n_batches']}", profiles))
     parts.append(pivot_md("Trial failure rate (failed / attempted)", comp,
                           lambda r: "n/a" if r["trial_failure_rate"] is None else
                           f"{100 * r['trial_failure_rate']:.0f} % ({r['trials_attempted'] - r['trials_succeeded']}/{r['trials_attempted']})",
@@ -265,7 +278,8 @@ def main(argv: list[str] | None = None) -> int:
     varying = [r for r in s["sizes"] if r["varies"] == "yes"]
     for r in varying:
         print(f"NOTE size varies: {r['algorithm']}/{r['operation']} {r['size_field']} "
-              f"{r['min_bytes']:.0f} to {r['max_bytes']:.0f} bytes (expected only for ECDSA DER signatures)")
+              f"{r['min_bytes']:.0f} to {r['max_bytes']:.0f} bytes (expected only for DER outputs: "
+              f"ECDSA signature, RSA PKCS#8 private key)")
     return 0
 
 

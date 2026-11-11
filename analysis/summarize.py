@@ -168,9 +168,11 @@ def summarize_memory(trials: list[dict]) -> list[dict]:
     for (a, o, p), rs in sorted(group(trials, CELL).items()):
         peak, base = _ok(rs, "worker_peak_rss_kb"), _ok(rs, "worker_baseline_rss_kb")
         cont = [r["container_mem_peak_kb"] for r in rs if r.get("container_mem_peak_kb") is not None]
+        delta = [r["worker_peak_rss_kb"] - r["worker_baseline_rss_kb"] for r in rs if r["success"] == 1
+                 and r.get("worker_peak_rss_kb") is not None and r.get("worker_baseline_rss_kb") is not None]
         out.append({"algorithm": a, "operation": o, "profile": p, "n": len(peak),
                     "median_worker_peak_rss_kb": _med(peak), "max_worker_peak_rss_kb": max(peak, default=None),
-                    "median_worker_baseline_rss_kb": _med(base),
+                    "median_worker_baseline_rss_kb": _med(base), "median_worker_delta_rss_kb": _med(delta),
                     "median_container_peak_kb": _med(cont), "max_container_peak_kb": max(cont, default=None),
                     "median_container_anon_kb": _med(_ok(rs, "container_anon_kb")),
                     "median_container_mem_kb": _med(_ok(rs, "container_mem_kb")),

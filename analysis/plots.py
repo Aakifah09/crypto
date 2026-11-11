@@ -4,7 +4,7 @@
                              --sizes results/output_sizes.csv --out results/figures
 
 Figures:  latency_vs_profile.png, slowdown_vs_profile.png, memory_comparison.png,
-          throughput.png, failure_rate.png
+          throughput.png, throughput_slowdown.png, failure_rate.png
 Tables:   object_sizes.md / object_sizes.csv  (from Module 1's output_sizes.csv)
 Needs matplotlib (pip install -r requirements-analysis.txt).
 """
@@ -20,9 +20,10 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
-from matplotlib.ticker import FuncFormatter  # noqa: E402
+from matplotlib.ticker import FuncFormatter, NullFormatter  # noqa: E402
 
 from .summarize import load_summaries  # noqa: E402
+from benchmark.runner import PROFILES  # noqa: E402  (stdlib-only module: the CPU share of each profile)
 
 GROUPS = [("keygen", "Key generation"), ("primary", "Encaps / Sign / Encrypt"),
           ("secondary", "Decaps / Verify / Decrypt")]
@@ -55,11 +56,13 @@ def by_alg(rows: list[dict], group: str) -> dict[str, dict[str, dict]]:
 
 
 def _plain_log(ax) -> None:
-    """Log axis with plain numbers (0.5, 1, 2) instead of 10^x notation."""
+    """Log axis with plain numbers (0.5, 1, 2) instead of 10^x notation. Minor ticks are only
+    labelled when the axis spans less than one decade, otherwise the labels pile up."""
     ax.set_yscale("log")
     f = FuncFormatter(lambda v, _: f"{v:g}")
     ax.yaxis.set_major_formatter(f)
-    ax.yaxis.set_minor_formatter(f)
+    lo, hi = ax.get_ylim()
+    ax.yaxis.set_minor_formatter(f if hi / lo < 10 else NullFormatter())
 
 
 def _panels(groups: list[str]):
@@ -69,6 +72,8 @@ def _panels(groups: list[str]):
 
 def plot_latency(lat, profiles, path, slowdown=False):
     col, groups = colours(lat), groups_present(lat)
+    if not groups:
+        return
     fig, axes = _panels(groups)
     for ax, g in zip(axes, groups):
         for alg, per in sorted(by_alg(lat, g).items()):
@@ -120,8 +125,9 @@ def _grouped_bars(ax, series: dict[str, dict[str, float]], profiles, colour_by_p
 
 def plot_memory(mem, profiles, path):
     panels = [("median_worker_peak_rss_kb", "Worker peak RSS, MiB (heaviest operation)"),
-              ("median_container_anon_kb", "Container anonymous memory after the call, MiB (no page cache)")]
-    fig, axes = plt.subplots(1, 2, figsize=(12, 4.6))
+              ("median_worker_delta_rss_kb", "Added by setup + call over the\nPython + library baseline, MiB"),
+              ("median_container_anon_kb", "Container anonymous memory after the\ncall, MiB (no page cache)")]
+    fig, axes = plt.subplots(1, 3, figsize=(17, 4.8))
     for ax, (field, title) in zip(axes, panels):
         s: dict[str, dict[str, float]] = defaultdict(dict)
         for r in mem:
@@ -129,10 +135,11 @@ def plot_memory(mem, profiles, path):
                 s[r["algorithm"]][r["profile"]] = max(s[r["algorithm"]].get(r["profile"], 0), r[field] / 1024)
         if s:
             _grouped_bars(ax, s, profiles)
-            ax.legend(title="profile", fontsize=8)
+            ax.set_ylim(0, ax.get_ylim()[1] * 1.3)          # head-room so the legend never covers a bar
+            ax.legend(title="profile", fontsize=8, ncol=len(profiles), loc="upper center")
         else:
             ax.text(0.5, 0.5, "no data (cgroup v2 memory files not readable)", ha="center", transform=ax.transAxes)
-        ax.set_title(title)
+        ax.set_title(title, fontsize=10)
         ax.set_ylabel("MiB")
     fig.tight_layout()
     fig.savefig(path, dpi=150)
@@ -152,6 +159,33 @@ def plot_throughput(thr, profiles, path):
         ax.set_ylabel("median throughput, operations/s")
         ax.set_title(LABEL.get(g, g))
     axes[0].legend(title="profile", fontsize=8)
+    fig.tight_layout()
+    fig.savefig(path, dpi=150)
+    plt.close(fig)
+
+
+def plot_throughput_slowdown(thr, profiles, path):
+    """Throughput in C0 / throughput in the profile. The dashed line is the slowdown a fully
+    CPU-bound single-threaded process would see under the profile's CPU quota (1 / CPUs, never
+    below 1). Only batches that need more CPU time than one quota period can follow it."""
+    rows = [r for r in thr if r.get("throughput_slowdown_vs_c0") is not None]
+    groups = groups_present(rows)
+    if not groups:
+        return
+    col = colours(rows)
+    ideal = [max(1.0, 1.0 / PROFILES[p].cpus) if p in PROFILES and PROFILES[p].cpus else 1.0 for p in profiles]
+    fig, axes = _panels(groups)
+    for ax, g in zip(axes, groups):
+        for alg, per in sorted(by_alg(rows, g).items()):
+            xs = [i for i, p in enumerate(profiles) if p in per]
+            ax.plot(xs, [per[profiles[i]]["throughput_slowdown_vs_c0"] for i in xs], marker="o", color=col[alg], label=alg)
+        ax.plot(range(len(profiles)), ideal, ls="--", color="grey", label="ideal CPU-quota slowdown")
+        ax.set_xticks(range(len(profiles)), profiles)
+        ax.set_xlabel("resource profile")
+        ax.set_ylabel("throughput slowdown vs C0")
+        ax.set_title(LABEL.get(g, g))
+        ax.grid(alpha=0.3)
+    axes[0].legend(fontsize=7)
     fig.tight_layout()
     fig.savefig(path, dpi=150)
     plt.close(fig)
@@ -227,6 +261,7 @@ def main(argv: list[str] | None = None) -> int:
     plot_latency(s["latency"], s["profiles"], out / "slowdown_vs_profile.png", slowdown=True)
     plot_memory(s["memory"], s["profiles"], out / "memory_comparison.png")
     plot_throughput(s["throughput"], s["profiles"], out / "throughput.png")
+    plot_throughput_slowdown(s["throughput"], s["profiles"], out / "throughput_slowdown.png")
     plot_failures(s["completion"], s["profiles"], out / "failure_rate.png")
     if Path(a.sizes).exists():
         object_size_table(Path(a.sizes), out)

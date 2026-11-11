@@ -1,0 +1,21 @@
+run_id,timestamp_utc,profile,algorithm,kind,family,operation,batch,order_index,batch_size,ops_completed,duration_ms,throughput_ops_s,success,error_type,error_message,worker_baseline_rss_kb,worker_peak_rss_kb,container_mem_peak_kb,container_peak_reset,container_anon_kb,container_mem_kb,oom_kills,throttled_periods,throttled_ms,timed_throttled_periods,timed_throttled_ms,worker_wall_ms,exit_code
+example-synthetic,2026-11-08T13:47:51.701+00:00,C0,synthetic_fn,function,test,call,2,31,100,100,50.385972,1984.6793865562422,1,,,15636,15640,,0,,,,,,,,108.270902000001,0
+example-synthetic,2026-11-08T13:47:51.808+00:00,C0,synthetic_fn,function,test,call,5,32,100,100,50.344824,1986.3015113529843,1,,,15632,15636,,0,,,,,,,,107.08542400000098,0
+example-synthetic,2026-11-08T13:47:51.918+00:00,C0,synthetic_fn,function,test,call,3,33,100,100,50.372228,1985.2209038679011,1,,,15648,15652,,0,,,,,,,,109.48612800000035,0
+example-synthetic,2026-11-08T13:47:52.026+00:00,C0,synthetic_fn,function,test,call,1,34,100,100,50.504205,1980.0331477349264,1,,,15676,15680,,0,,,,,,,,107.74558299999981,0
+example-synthetic,2026-11-08T13:47:52.137+00:00,C0,synthetic_fn,function,test,call,4,35,100,100,50.265058,1989.4535882162913,1,,,15664,15668,,0,,,,,,,,110.41215700000251,0
+example-synthetic,2026-11-08T13:47:54.798+00:00,C1,synthetic_fn,function,test,call,2,31,100,100,75.618567,1322.4265410901003,1,,,15636,15640,,0,,,,,,,,139.13022499999883,0
+example-synthetic,2026-11-08T13:47:54.944+00:00,C1,synthetic_fn,function,test,call,5,32,100,100,76.220292,1311.9865770128513,1,,,15748,15752,,0,,,,,,,,146.04383899999718,0
+example-synthetic,2026-11-08T13:47:55.099+00:00,C1,synthetic_fn,function,test,call,3,33,100,100,75.899008,1317.5402766792422,1,,,15640,15644,,0,,,,,,,,154.33388299999962,0
+example-synthetic,2026-11-08T13:47:55.263+00:00,C1,synthetic_fn,function,test,call,1,34,100,100,76.202845,1312.2869625143262,1,,,15772,15776,,0,,,,,,,,162.91059699999977,0
+example-synthetic,2026-11-08T13:47:55.427+00:00,C1,synthetic_fn,function,test,call,4,35,100,100,75.95665,1316.5404214114235,1,,,15676,15680,,0,,,,,,,,163.53194099999868,0
+example-synthetic,2026-11-08T13:47:57.936+00:00,C2,synthetic_fn,function,test,call,2,31,100,4,6.018622,664.6039575171859,0,MemoryError,[timed] synthetic failure,15668,15668,,0,,,,,,,,66.14190599999858,0
+example-synthetic,2026-11-08T13:47:58.029+00:00,C2,synthetic_fn,function,test,call,5,32,100,21,32.75818,641.0612555398376,0,MemoryError,[timed] synthetic failure,15776,15780,,0,,,,,,,,92.49738100000116,0
+example-synthetic,2026-11-08T13:47:58.158+00:00,C2,synthetic_fn,function,test,call,3,33,100,42,63.600397,660.3732363494523,0,MemoryError,[timed] synthetic failure,15660,15664,,0,,,,,,,,129.14751499999966,0
+example-synthetic,2026-11-08T13:47:58.222+00:00,C2,synthetic_fn,function,test,call,1,34,100,,,,0,MemoryError,[prime] synthetic failure,15664,15664,,0,,,,,,,,63.545197000003384,0
+example-synthetic,2026-11-08T13:47:58.327+00:00,C2,synthetic_fn,function,test,call,4,35,100,19,28.834048,658.9432049221809,0,MemoryError,[timed] synthetic failure,15692,15696,,0,,,,,,,,103.77548199999609,0
+example-synthetic,2026-11-08T13:48:00.913+00:00,C3,synthetic_fn,function,test,call,2,31,100,0,0.009237,,0,MemoryError,[timed] synthetic failure,15640,15640,,0,,,,,,,,65.10939399999671,0
+example-synthetic,2026-11-08T13:48:00.981+00:00,C3,synthetic_fn,function,test,call,5,32,100,2,6.369257,314.0083686370325,0,MemoryError,[timed] synthetic failure,15728,15728,,0,,,,,,,,68.33111400000291,0
+example-synthetic,2026-11-08T13:48:01.068+00:00,C3,synthetic_fn,function,test,call,3,33,100,8,24.326354,328.861447958868,0,MemoryError,[timed] synthetic failure,15660,15660,,0,,,,,,,,86.61078000000089,0
+example-synthetic,2026-11-08T13:48:01.135+00:00,C3,synthetic_fn,function,test,call,1,34,100,1,3.029724,330.06306845111965,0,MemoryError,[timed] synthetic failure,15668,15668,,0,,,,,,,,66.21932099999839,0
+example-synthetic,2026-11-08T13:48:01.202+00:00,C3,synthetic_fn,function,test,call,4,35,100,1,3.026053,330.46347833299683,0,MemoryError,[timed] synthetic failure,15636,15636,,0,,,,,,,,66.5180160000034,0

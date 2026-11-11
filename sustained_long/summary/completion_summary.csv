@@ -1,0 +1,13 @@
+algorithm,operation,profile,trials_attempted,trials_succeeded,trial_failure_rate,batches_attempted,batches_failed,batch_ops_attempted,batch_ops_completed,batch_op_failure_rate,oom_kills,error_types
+ML-KEM-512,decaps,C0,0,0,,3,0,300000,300000,0,0,
+ML-KEM-512,decaps,C2,0,0,,3,0,300000,300000,0,0,
+ML-KEM-512,decaps,C3,0,0,,3,0,300000,300000,0,0,
+ML-KEM-512,encaps,C0,0,0,,3,0,300000,300000,0,0,
+ML-KEM-512,encaps,C2,0,0,,3,0,300000,300000,0,0,
+ML-KEM-512,encaps,C3,0,0,,3,0,300000,300000,0,0,
+ML-KEM-768,decaps,C0,0,0,,3,0,300000,300000,0,0,
+ML-KEM-768,decaps,C2,0,0,,3,0,300000,300000,0,0,
+ML-KEM-768,decaps,C3,0,0,,3,0,300000,300000,0,0,
+ML-KEM-768,encaps,C0,0,0,,3,0,300000,300000,0,0,
+ML-KEM-768,encaps,C2,0,0,,3,0,300000,300000,0,0,
+ML-KEM-768,encaps,C3,0,0,,3,0,300000,300000,0,0,

@@ -120,9 +120,53 @@ def _proc_status_kb(field: str) -> int | None:
     return None
 
 
+def _windows_rss_kb() -> tuple[int | None, int | None]:
+    if sys.platform != "win32":
+        return None, None
+    try:
+        import ctypes
+        from ctypes import wintypes
+
+        class PROCESS_MEMORY_COUNTERS_EX(ctypes.Structure):
+            _fields_ = [
+                ("cb", wintypes.DWORD),
+                ("PageFaultCount", wintypes.DWORD),
+                ("PeakWorkingSetSize", ctypes.c_size_t),
+                ("WorkingSetSize", ctypes.c_size_t),
+                ("QuotaPeakPagedPoolUsage", ctypes.c_size_t),
+                ("QuotaPagedPoolUsage", ctypes.c_size_t),
+                ("QuotaPeakNonPagedPoolUsage", ctypes.c_size_t),
+                ("QuotaNonPagedPoolUsage", ctypes.c_size_t),
+                ("PagefileUsage", ctypes.c_size_t),
+                ("PeakPagefileUsage", ctypes.c_size_t),
+                ("PrivateUsage", ctypes.c_size_t),
+            ]
+
+        psapi = ctypes.windll.psapi
+        psapi.GetProcessMemoryInfo.argtypes = [ctypes.c_void_p, ctypes.POINTER(PROCESS_MEMORY_COUNTERS_EX), wintypes.DWORD]
+        psapi.GetProcessMemoryInfo.restype = wintypes.BOOL
+        hproc = ctypes.windll.kernel32.GetCurrentProcess()
+        counters = PROCESS_MEMORY_COUNTERS_EX()
+        counters.cb = ctypes.sizeof(counters)
+        if psapi.GetProcessMemoryInfo(hproc, ctypes.byref(counters), ctypes.sizeof(counters)):
+            return counters.WorkingSetSize // 1024, counters.PeakWorkingSetSize // 1024
+    except (AttributeError, OSError, ValueError):
+        pass
+    return None, None
+
+
 def rss_kb() -> int | None:
     """Current resident set size of this process (kB)."""
-    return _proc_status_kb("VmRSS")
+    v = _proc_status_kb("VmRSS")
+    if v is not None:
+        return v
+    if sys.platform == "win32":
+        current, _ = _windows_rss_kb()
+        return current
+    if resource is not None:
+        ru = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+        return ru // 1024 if sys.platform == "darwin" else ru   # Linux reports kB
+    return None
 
 
 def peak_rss_kb() -> int | None:
@@ -130,6 +174,9 @@ def peak_rss_kb() -> int | None:
     v = _proc_status_kb("VmHWM")
     if v is not None:
         return v
+    if sys.platform == "win32":
+        _, peak = _windows_rss_kb()
+        return peak
     if resource is not None:
         ru = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
         return ru // 1024 if sys.platform == "darwin" else ru   # Linux reports kB
@@ -183,8 +230,13 @@ class Cgroup:
         if self._peak_fd is None:
             return None
         try:
-            return int(os.pread(self._peak_fd, 64, 0).split()[0]) // 1024
-        except (OSError, ValueError, IndexError):
+            if hasattr(os, "pread"):
+                raw = os.pread(self._peak_fd, 64, 0)
+            else:
+                os.lseek(self._peak_fd, 0, os.SEEK_SET)
+                raw = os.read(self._peak_fd, 64)
+            return int(raw.split()[0]) // 1024
+        except (OSError, ValueError, IndexError, TypeError):
             return None
 
     def reset_memory_peak(self) -> bool:

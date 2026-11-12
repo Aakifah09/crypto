@@ -1,0 +1,47 @@
+Fault injection: each broken algorithm must be caught
+
+liboqs-python faulthandler is disabled
+[OK] ML-KEM-512: decaps returns a wrong secret  ->  caught by 'shared_secrets_match'
+[OK] ML-KEM-768: no implicit rejection  ->  caught by 'tampered_ciphertext_gives_different_secret'
+[OK] ML-KEM-768: wrong secret key accepted  ->  caught by 'wrong_secret_key_gives_different_secret'
+[OK] ML-KEM-512: encapsulation not randomized  ->  caught by 'encapsulation_is_randomized'
+[OK] ML-KEM-768 label running ML-KEM-512  ->  caught by 'size:ciphertext==1088'
+[OK] ML-DSA-44: verify accepts everything  ->  caught by 'modified_message_rejected'
+[OK] ML-DSA-65: verify accepts everything  ->  caught by 'wrong_public_key_rejected'
+[OK] ML-DSA-44: verify rejects valid signatures  ->  caught by 'valid_signature_verifies'
+[OK] ML-DSA-65: only first 512 bytes signed  ->  caught by 'truncated_message_rejected'
+[OK] ECDSA: verify accepts everything  ->  caught by 'modified_signature_rejected'
+[OK] ECDSA: P-384 instead of P-256  ->  caught by 'size:public_key==91'
+[OK] RSA: 1024-bit key  ->  caught by 'modulus_is_2048_bits'
+[OK] RSA: exponent 3 instead of 65537  ->  caught by 'public_exponent_is_65537'
+[OK] RSA: decrypt returns garbage  ->  caught by 'decrypt_recovers_payload'
+[OK] RSA: encryption not randomized  ->  caught by 'encryption_is_randomized'
+
+Run-level behaviour
+
+[FAIL] ML-KEM-512: 1 checks, 1 assertions
+    FAILED checker_completed: 1x ['RuntimeError: simulated library failure']
+[PASS] ECDSA-P256-SHA256: 7 checks, 35 assertions
+
+Results written to /tmp/tmp2my9dvt4
+SOME CHECKS FAILED
+[OK] keygen crash -> recorded as FAIL, run continues, exit status 1
+[UNAVAILABLE] ML-KEM-999: 'ML-KEM-999' is not enabled in liboqs 0.16.0
+[PASS] ECDSA-P256-SHA256: 7 checks, 35 assertions
+
+Results written to /tmp/tmp1x61n5j_
+1 REQUIRED ALGORITHM(S) UNAVAILABLE: ML-KEM-999
+[OK] missing algorithm -> reported UNAVAILABLE with a reason
+[OK] missing algorithm -> not handed to the benchmark, nothing substituted
+[OK] missing algorithm -> run blocked, exit status 2
+
+No false alarms
+
+[OK] healthy ML-KEM-512 passes
+[OK] healthy ML-KEM-768 passes
+[OK] healthy ML-DSA-44 passes
+[OK] healthy ML-DSA-65 passes
+[OK] healthy RSA-2048-OAEP-SHA256 passes
+[OK] healthy ECDSA-P256-SHA256 passes
+
+SELF-TEST PASSED

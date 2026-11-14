@@ -35,7 +35,7 @@ Four Docker resource profiles were configured.
 | C2 | 0.5 CPU | 256 MiB |
 | C3 | 0.25 CPU | 128 MiB |
 
-The memory-swap limit was set equal to the memory limit for C1–C3, preventing additional swap allocation.
+For C1–C3, Docker's combined memory-and-swap limit (`--memory-swap`) was set equal to the memory limit (`--memory`). Consequently, no additional swap was available, and the cgroup v2 `memory.swap.max` value was `0`.
 
 ### 3.1 Verification of Resource Limits
 

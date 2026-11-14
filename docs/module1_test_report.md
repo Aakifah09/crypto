@@ -19,7 +19,7 @@
 | Host | Windows laptop, Docker Desktop Linux container (WSL2 kernel 6.18), 12 logical CPUs, ~7.6 GiB visible to the VM |
 | Container limits for this run | none (`cpu.max = max`, `memory.max = max`), i.e. profile C0 |
 
-Every value above is read from the live setup and saved to `results/environment.json`, as the report requires ("we won't guess version numbers"). The liboqs build enables **41 KEMs and 221 signature schemes**. The full lists are in the same file. The names this project uses are `ML-KEM-512`, `ML-KEM-768`, `ML-DSA-44` and `ML-DSA-65`.
+Every value above is read from the live setup and saved to `results/environment_nov01.json`, as the report requires ("we won't guess version numbers"). The liboqs build enables **41 KEMs and 221 signature schemes**. The full lists are in the same file. The names this project uses are `ML-KEM-512`, `ML-KEM-768`, `ML-DSA-44` and `ML-DSA-65`.
 
 ## 2. Supported algorithms
 

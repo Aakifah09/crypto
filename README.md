@@ -4,6 +4,7 @@ Compares post-quantum algorithms (ML-KEM, ML-DSA via liboqs) with classical base
 
 - **Module 1** (algorithms and correctness): `benchmark/algorithms.py`, `benchmark/correctness.py`. Described in the sections below.
 - **Module 2** (performance measurement, data and analysis): the section *Module 2: performance measurement* below.
+- **Module 3** (resource constraints and experimental results): the section *Module 3: resource constraints and experimental results* below.
 
 ## Layout
 
@@ -21,11 +22,16 @@ Compares post-quantum algorithms (ML-KEM, ML-DSA via liboqs) with classical base
 | `scripts/run_profiles.py` | Module 2: starts one container per profile, in random order |
 | `scripts/make_example_data.py` | Module 2: generates the synthetic example CSVs |
 | `tests/test_measurement.py`, `tests/fixtures.py` | Module 2 self-test and test functions |
-| `results/` | Module 1 correctness output; Module 2 raw data (`trials.csv`, `throughput.csv`), `summary/`, `figures/` |
+| `results/` | Module 1 correctness output; Module 2 raw data, summaries and figures; Module 3 experimental results |
 | `sustained/`, `sustained_long/` | Module 2 sustained-load runs |
 | `examples/` | Synthetic example data (not real measurements) |
 | `docs/module1_test_report.md` | Module 1 test report |
 | `docs/module2_statistical_analysis.md` | Module 2 method, limits and findings |
+| `docs/module3_resource_constraints.md` | Module 3 resource constraints, experimental methodology, findings and limitations |
+| `results/filtered/` | Module 3 primary latency and throughput datasets |
+| `results/summary_nov12/` | Module 3 experimental summaries |
+| `results/figures_nov12/` | Module 3 experimental graphs |
+| `results/validation/` | Module 3 validation evidence |
 
 Everything runs inside Docker, as the report specifies (Sec. 4.1): liboqs is compiled at a pinned version inside the image, and the resource profiles C0–C3 are Docker CPU/memory limits.
 
@@ -178,6 +184,66 @@ docker run --rm pqc-benchmark python -m tests.test_measurement
 Expected ending: `SELF-TEST PASSED`. It runs the framework on test functions and on the classical algorithms, checks the CSV format, that failures are recorded, and that the summary statistics can be reproduced from the raw rows.
 
 Method, assumptions, limits and findings: `docs/module2_statistical_analysis.md`. `examples/` holds synthetic data (from `scripts/make_example_data.py`) that shows the file formats; it is not a measurement of anything.
+
+
+## Module 3: resource constraints and experimental results
+
+Module 3 evaluates the cryptographic algorithms under simulated resource-constrained environments. Docker CPU and memory limits were used on a laptop running Ubuntu through WSL2.
+
+### Resource profiles
+
+| Profile | CPU limit | Memory limit |
+|---|---:|---:|
+| C0 | Unrestricted | Unrestricted |
+| C1 | 1 CPU | 512 MiB |
+| C2 | 0.5 CPU | 256 MiB |
+| C3 | 0.25 CPU | 128 MiB |
+
+For C1–C3, no additional swap was available. The benchmark runner verifies the actual resource limits before allowing an experiment to proceed.
+
+### Experimental setup
+
+The main experiments were conducted on 12 November 2026. Two complete benchmark sweeps were performed across all four profiles.
+
+- 5 warm-up iterations per operation.
+- 30 recorded latency trials per operation and profile.
+- 5 throughput batches per operation and profile.
+- 100 operations per throughput batch.
+- Worker memory, container memory, CPU throttling and execution failures were recorded.
+
+### Primary experimental results
+
+| Measurement | Total |
+|---|---:|
+| Recorded latency trials | 4,320 |
+| Throughput batches | 720 |
+| Throughput operations | 72,000 |
+
+All recorded trials and throughput batches in the primary dataset completed successfully. No out-of-memory failures were recorded.
+
+The experiments also measured worker peak memory, container memory and cryptographic object sizes, comparing post-quantum algorithms (ML-KEM and ML-DSA) with classical baselines (RSA and ECDSA).
+
+### Results and documentation
+
+| Path | Description |
+|---|---|
+| `docs/module3_resource_constraints.md` | Full experimental methodology, environment, findings and limitations |
+| `results/filtered/trials.csv` | Primary latency-trial dataset |
+| `results/filtered/throughput.csv` | Primary throughput dataset |
+| `results/summary_nov12/` | Completion, latency, memory, throughput and object-size summaries |
+| `results/figures_nov12/` | Latency, throughput, memory, slowdown and failure-rate graphs |
+| `results/validation/fault_injection_test.log` | Fault-injection validation output |
+| `results/run_meta_*.json` | Individual experiment configuration and environment metadata |
+
+### Validation
+
+The contribution included cryptographic correctness checks, fault-injection tests, resource-profile verification and validation of benchmark output.
+
+The benchmark runner was hardened to stop execution if required cgroup resource limits could not be verified.
+
+### Limitations
+
+The resource constraints were simulated using Docker on WSL2. They do not directly reproduce the processor architecture, power consumption, thermal behaviour or hardware characteristics of physical IoT devices. These results represent software-controlled resource-constrained experiments, not direct measurements on physical IoT hardware.
 
 ## Troubleshooting
 

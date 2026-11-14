@@ -134,9 +134,17 @@ def main() -> int:
     print("\nIn-worker cgroup sampling (fake cgroup directory)\n")
     with tempfile.TemporaryDirectory() as t, tempfile.TemporaryDirectory() as fake:
         f = Path(fake)
+
+        # Memory and CPU usage sampling data
         (f / "memory.current").write_text("52428800\n")
         (f / "memory.stat").write_text("anon 31457280\nfile 20971520\n")
         (f / "cpu.stat").write_text("nr_periods 10\nnr_throttled 4\nthrottled_usec 9000\n")
+
+        # C0 profile verification data: unrestricted CPU, memory and swap
+        (f / "cpu.max").write_text("max 100000\n")
+        (f / "memory.max").write_text("max\n")
+        (f / "memory.swap.max").write_text("max\n")
+
         run_runner(Path(t), "C0", "fn:tests.fixtures:ok_fn", {"CGROUP_ROOT": str(f)}, trials=2, batches=1)
         r0 = rows(Path(t) / "trials.csv")[0]
         check(r0["container_anon_kb"] == "30720" and r0["container_mem_kb"] == "51200",

@@ -1,0 +1,7 @@
+Algorithm,Family,Public key,Secret key,Ciphertext,Shared secret,Signature
+ML-KEM-512,post-quantum,800,"1,632",768,32,-
+ML-KEM-768,post-quantum,"1,184","2,400","1,088",32,-
+ML-DSA-44,post-quantum,"1,312","2,560",-,-,"2,420"
+ML-DSA-65,post-quantum,"1,952","4,032",-,-,"3,309"
+RSA-2048-OAEP-SHA256,classical,294,"1,218",256,-,-
+ECDSA-P256-SHA256,classical,91,138,-,-,70 to 72 (variable)
